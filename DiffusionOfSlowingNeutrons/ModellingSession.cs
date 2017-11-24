@@ -23,6 +23,8 @@ namespace NuclearProject
             this.model = new Model(env, fuelParams, alphaF, coolantParams, t0, coeffA, coeffB, coeffC, startPower);
             this.averageTau = new List<DataPoint>();
             this.deltaT2 = new List<DataPoint>();
+            this.deltaTtPoints = new List<DataPoint>();
+            this.deltaT2Points = new List<DataPoint>();
         }
         
         private double stepE(double E)
@@ -47,9 +49,11 @@ namespace NuclearProject
         {
             this.averageTau.Clear();
             this.deltaT2.Clear();
-            List<DataPoint> deltaTtPoints = model.getDeltaTtPoints();
-            List<DataPoint> deltaT2Points = model.getDeltaT2Points();
-            foreach (var point in  deltaTtPoints)
+            this.deltaTtPoints = model.getDeltaTtPoints();
+            this.deltaT2Points = model.getDeltaT2Points();
+            //List<DataPoint> deltaTtPoints = model.getDeltaTtPoints();
+            //List<DataPoint> deltaT2Points = model.getDeltaT2Points();
+            foreach (var point in deltaTtPoints)
             {
                 this.averageTau.Add(point);
             }
