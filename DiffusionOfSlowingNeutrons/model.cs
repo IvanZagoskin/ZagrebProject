@@ -91,23 +91,14 @@ namespace NuclearProject
                 return 0;
             }
             double prevDeltaTt = getDeltaTt(k - t0);
-
             double prevDeltaT2 = getDeltaT2(k - t0);
-
             double k1 = getFirstEquationResult(getDeltaW(k - 1), prevDeltaTt, prevDeltaT2);
-
             double m1 = getSecondEquationResult(prevDeltaTt, prevDeltaT2);
-
             double k2 = getFirstEquationResult(getDeltaW(k - 1 + t0 / 2), prevDeltaTt + k1 / 2, prevDeltaT2 + m1 / 2);
-
             double m2 = getSecondEquationResult(prevDeltaTt + k1 / 2, prevDeltaT2 + m1 / 2);
-
             double k3 = getFirstEquationResult(getDeltaW(k - 1 + t0 / 2), prevDeltaTt + k2 / 2, prevDeltaT2 + m2 / 2);
-
             double m3 = getSecondEquationResult(prevDeltaTt + k2 / 2, prevDeltaT2 + m2 / 2);
-
             double k4 = getFirstEquationResult(getDeltaW(k - 1 + t0), prevDeltaTt + k3, prevDeltaT2 + m3);
-
             double m4 = getSecondEquationResult(prevDeltaTt + k3, prevDeltaT2 + m3);
 
             return prevDeltaTt + (k1 + 2 * k2 + 2 * k3 + k4) * t0 / 6;
@@ -130,6 +121,7 @@ namespace NuclearProject
             double m3 = getSecondEquationResult(prevDeltaTt + k2 / 2, prevDeltaT2 + m2 / 2);
             double k4 = getFirstEquationResult(getDeltaW(k - 1 + t0), prevDeltaTt + k3, prevDeltaT2 + m3);
             double m4 = getSecondEquationResult(prevDeltaTt + k3, prevDeltaT2 + m3);
+
             return prevDeltaT2 + (m1 + 2 * m2 + 2 * m3 + m4) * t0 / 6;
         }
     }
