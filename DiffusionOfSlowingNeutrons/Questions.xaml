@@ -5,16 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NuclearProject"
         mc:Ignorable="d"
-        Title="Questions" Height="700" Width="700">
+        Title="Тестирование" Height="800" Width="800">
     <Grid>
         <ScrollViewer>
-            <StackPanel Name="QuestionList">
-                <WrapPanel HorizontalAlignment="Center">
-                    <Label HorizontalAlignment="Center" VerticalAlignment="Center" >Тестирование</Label>
+            <WrapPanel HorizontalAlignment="Stretch">
+                <WrapPanel Name="QuestionList" HorizontalAlignment="Stretch"></WrapPanel>
+                <StackPanel Width="700">
                     <Button x:Name="submitTest" Click="SubmitTest"
-                    Content="Проверить" Height="30" MinWidth="105" Margin="2,2,2,2" HorizontalAlignment="Center" VerticalAlignment="Center" Background="CornflowerBlue"/>
-                </WrapPanel>
-            </StackPanel>
+                    Content="Проверить" Height="30" MinWidth="105" Margin="10,10,10,10" HorizontalAlignment="Center" VerticalAlignment="Center" Background="CornflowerBlue"/>
+                </StackPanel>
+            </WrapPanel>
         </ScrollViewer>
     </Grid>
 </Window>

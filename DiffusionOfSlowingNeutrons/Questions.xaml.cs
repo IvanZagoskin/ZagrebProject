@@ -21,40 +21,51 @@ namespace NuclearProject
     /// </summary>
     public partial class Questions : Window
     {
-        private JArray JData;
+        private JArray formedQuestions;
         private const string filename = "database.json";
-        private int amount;
+        private const int totalNumber = 10;
+        private const int easyAmount = 4;
+        private const int middleAmount = 4;
+        private const int hardAmount = 2;
+
         public Questions(string nameTheme)
         {
             InitializeComponent();
             //TODO:wrap in file not found try catch
             //string curFile = "database.json";
             //Console.WriteLine(File.Exists(curFile) ? "File exists." : "File does not exist.");
-           //вопросы которые были отобраны для текущего теста
-            this.JData = JArray.Parse(File.ReadAllText(filename));
-            this.amount = JData.Count();
-            this.loadQuestions(this.JData);
-            //var questions = new List<Label>();
-          
+            //вопросы которые были отобраны для текущего теста getQuestionList
+            var JData = JArray.Parse(File.ReadAllText(filename));
+            this.formedQuestions = this.GetQuestionList(JData);
+            //var JData = JArray.Parse(File.ReadAllText(filename));
+            //кладем сформированный список
+            this.LoadQuestions(this.formedQuestions);          
         }
-        private void loadQuestions(JArray JData)
+        private void LoadQuestions(JArray formedQuestions)
         {
-            foreach (JObject item in JData)
+            foreach (var item in formedQuestions)
             {
                 var margin = new Thickness(10, 20, 10, 10);
                 var answersMargin = new Thickness(10);
-                var question = new StackPanel();
-                //question.Name = '' //TODO:set name
-                var questionText = new TextBlock();
-                questionText.Text = item["Question"].ToString();
-                questionText.Margin = margin;
+                var question = new StackPanel
+                {
+                    Width = 800
+                };
+
+                var questionText = new TextBlock
+                {
+                    Text = item["Question"].ToString(),
+                    Margin = margin,
+                };
                 question.Children.Add(questionText);
                 QuestionList.Children.Add(question);
-                foreach (JObject answerItem in item["Answers"])
+                foreach (var answerItem in item["Answers"])
                 {
-                    var answer = new RadioButton();
-                    answer.Margin = answersMargin;
-                    answer.Content = answerItem["Text"].ToString();
+                    var answer = new RadioButton
+                    {
+                        Margin = answersMargin,
+                        Content = answerItem["Text"].ToString(),
+                    };
                     question.Children.Add(answer);
                 }
 
@@ -65,46 +76,91 @@ namespace NuclearProject
         {
             var questions = QuestionList.Children.OfType<StackPanel>();
             var selectedAnswers = new Dictionary<string, string>();
-            int total = 0;
+            float points = .0f;
+            int percent = 0;
+            string themes = "";
             //собирем вопросы и ответы
             foreach (StackPanel question in questions)
             {
-                var questionText = question.Children.OfType<TextBlock>().First().Text;
-                var answer = question.Children.OfType<RadioButton>().FirstOrDefault(r => r.IsChecked.HasValue && r.IsChecked.Value).Content.ToString();
-                selectedAnswers.Add(questionText, answer);
+                try
+                {
+                    var questionText = question.Children.OfType<TextBlock>().First().Text;
+                    var answer = question.Children.OfType<RadioButton>().FirstOrDefault(r => r.IsChecked.HasValue && r.IsChecked.Value).Content.ToString();
+                    selectedAnswers.Add(questionText, answer);
+                }
+                catch (System.NullReferenceException)
+                {
+                    MessageBox.Show("Необходимо указать ответ на каждый вопрос", "Ошибка");
+                    return;
+                }
+
             }
             //проверяем ответы
-            foreach (var item in JData)
+            foreach (var item in formedQuestions)
             {
                 var selectedAnswer = selectedAnswers.FirstOrDefault(t => t.Key == item["Question"].ToString()).Value;
                 foreach (var answerItem in item["Answers"])
                 {
                     if ((int)answerItem["isRight"] == 1 && answerItem["Text"].ToString() == selectedAnswer)
                     {
-                        total++;
+                        points += (float)item["Complexity"];
                     }
+                    //else if ((int)answerItem["isRight"] == 1 && selectedAnswer != answerItem["Text"].ToString())
+                    //{
+                    //    if(themes.Contains(item["Theme"].ToString()))
+                    //    {
+                    //        continue;
+                    //    }
+                    //    themes += item["Theme"] + Environment.NewLine;
+                    //}
                 }
             }
-            MessageBox.Show("Правильных ответов: " + total + " из " + this.amount, "Ваш результат");
+
+            percent = (int)((points / 18) * 100);
+            MessageBox.Show("Оценка: " + this.GetTotalGrade(percent).ToString() + Environment.NewLine + percent + "Темы для повторения:" + Environment.NewLine + themes, "Ваш результат");
 
             //TODO:set id on stack panel
-            //foreach (JObject item in this.JData)
-            //{
-            //    if (item["Question"].ToString() == questionText)
-            //    {
-            //        foreach (JObject answerItem in item["Answers"])
-            //        {
-            //            if ((int)answerItem["isRight"] == 1)
-            //            {
-            //                var correctAnswer = answerItem["Text"];
-            //                Console.WriteLine(correctAnswer);
-            //            }
-            //        }
-            //    }
-            //}
+        }
+        private JArray GetQuestionList(JArray JData)
+        {
+            var random = new Random();
+            var formedQuestions = new JArray();
+            var randomQuestions = JData.OrderBy(q => random.Next());
+            var easyQuestions = new JArray(randomQuestions.Where(q => (int)q["Complexity"] == 1).Take(easyAmount));
+            var middleQuestions = new JArray(randomQuestions.Where(q => (int)q["Complexity"] == 2).Take(middleAmount));
+            var hardQuestions = new JArray(randomQuestions.Where(q => (int)q["Complexity"] == 3).Take(hardAmount));
+            formedQuestions.Merge(easyQuestions);
+            formedQuestions.Merge(middleQuestions);
+            formedQuestions.Merge(hardQuestions);
 
+            return formedQuestions;
+        }
 
+        private int GetTotalGrade(int percent)
+        {
+            if (percent >= 0 && percent <= 59)
+            {
+                return 2;
+            }
+
+            else if (percent >= 60 && percent <= 76)
+            {
+                return 3;
+            }
+
+            else if (percent >= 77 && percent <= 94)
+            {
+                return 4;
+            }
+
+            else if (percent >= 95 && percent <= 100)
+            {
+                return 5;
+            }
+
+            return 2;
 
         }
+
     }
 }
