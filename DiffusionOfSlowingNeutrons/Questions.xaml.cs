@@ -23,6 +23,7 @@ namespace NuclearProject
     {
         private JArray formedQuestions;
         private const string filename = "database.json";
+        private string nameTheme;
         private const int totalNumber = 10;
         private const int easyAmount = 4;
         private const int middleAmount = 4;
@@ -32,12 +33,10 @@ namespace NuclearProject
         {
             InitializeComponent();
             //TODO:wrap in file not found try catch
-            //string curFile = "database.json";
-            //Console.WriteLine(File.Exists(curFile) ? "File exists." : "File does not exist.");
             //вопросы которые были отобраны для текущего теста getQuestionList
+            this.nameTheme = nameTheme;
             var JData = JArray.Parse(File.ReadAllText(filename));
             this.formedQuestions = this.GetQuestionList(JData);
-            //var JData = JArray.Parse(File.ReadAllText(filename));
             //кладем сформированный список
             this.LoadQuestions(this.formedQuestions);          
         }
@@ -56,6 +55,9 @@ namespace NuclearProject
                 {
                     Text = item["Question"].ToString(),
                     Margin = margin,
+                    FontWeight = FontWeights.SemiBold,
+                    FontSize = 14,
+                    TextWrapping = TextWrapping.Wrap
                 };
                 question.Children.Add(questionText);
                 QuestionList.Children.Add(question);
@@ -76,9 +78,6 @@ namespace NuclearProject
         {
             var questions = QuestionList.Children.OfType<StackPanel>();
             var selectedAnswers = new Dictionary<string, string>();
-            float points = .0f;
-            int percent = 0;
-            string themes = "";
             //собирем вопросы и ответы
             foreach (StackPanel question in questions)
             {
@@ -96,15 +95,25 @@ namespace NuclearProject
 
             }
             //проверяем ответы
+            this.CheckTestResults(selectedAnswers);
+        }
+
+        private void CheckTestResults(Dictionary<string, string> selectedAnswers)
+        {
+            float points = .0f;
+            int percent = 0;
+            string themes = "";
+
             foreach (var item in formedQuestions)
             {
                 var selectedAnswer = selectedAnswers.FirstOrDefault(t => t.Key == item["Question"].ToString()).Value;
                 foreach (var answerItem in item["Answers"])
                 {
-                    if ((int)answerItem["isRight"] == 1 && answerItem["Text"].ToString() == selectedAnswer)
+                    if ((int)answerItem["isRight"] == 1 && selectedAnswer == answerItem["Text"].ToString())
                     {
                         points += (float)item["Complexity"];
                     }
+                    //добавляем темы к списку тем для повторения
                     else if ((int)answerItem["isRight"] == 1 && selectedAnswer != answerItem["Text"].ToString())
                     {
                         if (themes.Contains(item["Theme"].ToString()))
@@ -117,15 +126,15 @@ namespace NuclearProject
             }
 
             percent = (int)((points / 18) * 100);
+            //TODO:make custom window
             MessageBox.Show("Оценка: " + this.GetTotalGrade(percent).ToString() + Environment.NewLine + "Темы для повторения:" + Environment.NewLine + themes, "Ваш результат");
 
-            //TODO:set id on stack panel
         }
         private JArray GetQuestionList(JArray JData)
         {
             var random = new Random();
             var formedQuestions = new JArray();
-            var randomQuestions = JData.OrderBy(q => random.Next());
+            var randomQuestions = JData.OrderBy(q => random.Next()).Where(q => q["TestType"].ToString() == this.nameTheme);
             var easyQuestions = new JArray(randomQuestions.Where(q => (int)q["Complexity"] == 1).Take(easyAmount));
             var middleQuestions = new JArray(randomQuestions.Where(q => (int)q["Complexity"] == 2).Take(middleAmount));
             var hardQuestions = new JArray(randomQuestions.Where(q => (int)q["Complexity"] == 3).Take(hardAmount));
