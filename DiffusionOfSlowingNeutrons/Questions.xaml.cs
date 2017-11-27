@@ -105,19 +105,19 @@ namespace NuclearProject
                     {
                         points += (float)item["Complexity"];
                     }
-                    //else if ((int)answerItem["isRight"] == 1 && selectedAnswer != answerItem["Text"].ToString())
-                    //{
-                    //    if(themes.Contains(item["Theme"].ToString()))
-                    //    {
-                    //        continue;
-                    //    }
-                    //    themes += item["Theme"] + Environment.NewLine;
-                    //}
+                    else if ((int)answerItem["isRight"] == 1 && selectedAnswer != answerItem["Text"].ToString())
+                    {
+                        if (themes.Contains(item["Theme"].ToString()))
+                        {
+                            continue;
+                        }
+                        themes += item["Theme"] + Environment.NewLine;
+                    }
                 }
             }
 
             percent = (int)((points / 18) * 100);
-            MessageBox.Show("Оценка: " + this.GetTotalGrade(percent).ToString() + Environment.NewLine + percent + "Темы для повторения:" + Environment.NewLine + themes, "Ваш результат");
+            MessageBox.Show("Оценка: " + this.GetTotalGrade(percent).ToString() + Environment.NewLine + "Темы для повторения:" + Environment.NewLine + themes, "Ваш результат");
 
             //TODO:set id on stack panel
         }
