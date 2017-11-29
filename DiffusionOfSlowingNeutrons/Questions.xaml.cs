@@ -28,6 +28,7 @@ namespace NuclearProject
         private const int easyAmount = 4;
         private const int middleAmount = 4;
         private const int hardAmount = 2;
+        private readonly Random random = new Random();
 
         public Questions(string nameTheme)
         {
@@ -61,7 +62,10 @@ namespace NuclearProject
                 };
                 question.Children.Add(questionText);
                 QuestionList.Children.Add(question);
-                foreach (var answerItem in item["Answers"])
+
+                var answerList = item["Answers"].OrderBy(ans => random.Next());
+
+                foreach (var answerItem in answerList)
                 {
                     var answer = new RadioButton
                     {
@@ -104,35 +108,35 @@ namespace NuclearProject
             int percent = 0;
             string themes = "";
 
-            foreach (var item in formedQuestions)
+            foreach (var answer in selectedAnswers)
             {
-                var selectedAnswer = selectedAnswers.FirstOrDefault(t => t.Key == item["Question"].ToString()).Value;
-                foreach (var answerItem in item["Answers"])
+                var currentQuestion = formedQuestions.Where(q => answer.Key == q["Question"].ToString());
+
+                var complexity = (int)currentQuestion.Select(c => c["Complexity"]).FirstOrDefault();
+                var theme = currentQuestion.Select(t => t["Theme"]).FirstOrDefault().ToString();
+                var allAnswers = currentQuestion.Select(q => q["Answers"]).FirstOrDefault();
+                var correctAnswer = allAnswers.Where(ans => (int)ans["isRight"] == 1).Select(ans => ans["Text"]).FirstOrDefault().ToString();
+                if (answer.Value == correctAnswer)
                 {
-                    if ((int)answerItem["isRight"] == 1 && selectedAnswer == answerItem["Text"].ToString())
+                    points += complexity;
+                }
+                else
+                {
+                    if (themes.Contains(theme))
                     {
-                        points += (float)item["Complexity"];
+                        continue;
                     }
-                    //добавляем темы к списку тем для повторения
-                    else if ((int)answerItem["isRight"] == 1 && selectedAnswer != answerItem["Text"].ToString())
-                    {
-                        if (themes.Contains(item["Theme"].ToString()))
-                        {
-                            continue;
-                        }
-                        themes += item["Theme"] + Environment.NewLine;
-                    }
+
+                    themes += theme + Environment.NewLine;
                 }
             }
-
             percent = (int)((points / 18) * 100);
             //TODO:make custom window
-            MessageBox.Show("Оценка: " + this.GetTotalGrade(percent).ToString() + Environment.NewLine + "Темы для повторения:" + Environment.NewLine + themes, "Ваш результат");
+            MessageBox.Show("Решено правильно: " + percent + "%" + " Оценка: " + this.GetTotalGrade(percent).ToString() + Environment.NewLine + "Темы для повторения:" + Environment.NewLine + themes, "Ваш результат");
 
         }
         private JArray GetQuestionList(JArray JData)
         {
-            var random = new Random();
             var formedQuestions = new JArray();
             var randomQuestions = JData.OrderBy(q => random.Next()).Where(q => q["TestType"].ToString() == this.nameTheme);
             var easyQuestions = new JArray(randomQuestions.Where(q => (int)q["Complexity"] == 1).Take(easyAmount));
