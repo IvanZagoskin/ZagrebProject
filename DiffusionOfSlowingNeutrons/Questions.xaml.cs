@@ -1,16 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.IO;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
@@ -122,6 +114,7 @@ namespace NuclearProject
                 }
                 else
                 {
+                    points -= this.GetSubstactedValue(complexity);
                     if (themes.Contains(theme))
                     {
                         continue;
@@ -130,9 +123,12 @@ namespace NuclearProject
                     themes += theme + Environment.NewLine;
                 }
             }
-            percent = (int)((points / 18) * 100);
+
+            points = (points < 0) ? 0 : points; 
+            percent = (int)((points / 22) * 100);
             //TODO:make custom window
-            MessageBox.Show("Решено правильно: " + percent + "%" + " Оценка: " + this.GetTotalGrade(percent).ToString() + Environment.NewLine + "Темы для повторения:" + Environment.NewLine + themes, "Ваш результат");
+            string result = "Решено правильно: " + percent + "%" + " Оценка: " + this.GetTotalGrade(percent).ToString() + Environment.NewLine + "Темы для повторения:" + Environment.NewLine + themes;
+            MessageBox.Show(result, "Ваш результат");
 
         }
         private JArray GetQuestionList(JArray JData)
@@ -151,28 +147,41 @@ namespace NuclearProject
 
         private int GetTotalGrade(int percent)
         {
-            if (percent >= 0 && percent <= 59)
+            if (percent >= 0 && percent <= 45)
             {
                 return 2;
             }
 
-            else if (percent >= 60 && percent <= 76)
+            else if (percent >= 46 && percent <= 63)
             {
                 return 3;
             }
 
-            else if (percent >= 77 && percent <= 94)
+            else if (percent >= 64 && percent <= 89)
             {
                 return 4;
             }
 
-            else if (percent >= 95 && percent <= 100)
+            else if (percent >= 90 && percent <= 100)
             {
                 return 5;
             }
 
             return 2;
 
+        }
+        private int GetSubstactedValue(int complexity)
+        {
+            if (complexity == 3)
+            {
+                return 1;
+            }
+            else if (complexity == 2)
+            {
+                return 2;
+            }
+
+            return 3;
         }
 
     }
