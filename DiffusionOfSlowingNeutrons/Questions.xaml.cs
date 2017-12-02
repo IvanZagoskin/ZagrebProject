@@ -46,7 +46,7 @@ namespace NuclearProject
 
                 var questionText = new TextBlock
                 {
-                    Text = formedQuestions.IndexOf(item) + 1 +") " + item["Question"],
+                    Text = item["Question"].ToString(),
                     Margin = margin,
                     FontWeight = FontWeights.SemiBold,
                     FontSize = 14,
@@ -136,11 +136,6 @@ namespace NuclearProject
             var easyQuestions = new JArray(randomQuestions.Where(q => (int)q["Complexity"] == 1).GroupBy(q => q["Theme"]).Select(q => q.First()).Take(easyAmount));
             var middleQuestions = new JArray(randomQuestions.Where(q => (int)q["Complexity"] == 2).GroupBy(q => q["Theme"]).Select(q => q.First()).Take(middleAmount));
             var hardQuestions = new JArray(randomQuestions.Where(q => (int)q["Complexity"] == 3).GroupBy(q => q["Theme"]).Select(q => q.First()).Take(hardAmount));
-            //foreach (var e in easyQuestions)
-            //{
-            //    Console.WriteLine(e["Theme"]);
-            //}
-            //System.Environment.Exit(1);
 
             formedQuestions.Merge(easyQuestions);
             formedQuestions.Merge(middleQuestions);
