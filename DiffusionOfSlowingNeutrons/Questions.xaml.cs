@@ -46,7 +46,7 @@ namespace NuclearProject
 
                 var questionText = new TextBlock
                 {
-                    Text = item["Question"].ToString(),
+                    Text = formedQuestions.IndexOf(item) + 1 +") " + item["Question"],
                     Margin = margin,
                     FontWeight = FontWeights.SemiBold,
                     FontSize = 14,
@@ -98,7 +98,7 @@ namespace NuclearProject
         {
             float points = .0f;
             int percent = 0;
-            string themes = "";
+            List<string> themes = new List<string>();
 
             foreach (var answer in selectedAnswers)
             {
@@ -110,34 +110,38 @@ namespace NuclearProject
                 var correctAnswer = allAnswers.Where(ans => (int)ans["isRight"] == 1).Select(ans => ans["Text"]).FirstOrDefault().ToString();
                 if (answer.Value == correctAnswer)
                 {
-                    points += complexity;
+                    points += this.GetQuestionValue(complexity);
                 }
                 else
                 {
-                    points -= this.GetSubstactedValue(complexity);
+                    points -= this.GetQuestionValue(complexity);
                     if (themes.Contains(theme))
                     {
                         continue;
                     }
 
-                    themes += theme + Environment.NewLine;
+                    themes.Add(theme);
                 }
             }
 
             points = (points < 0) ? 0 : points; 
             percent = (int)((points / 22) * 100);
-            //TODO:make custom window
-            string result = "Решено правильно: " + percent + "%" + " Оценка: " + this.GetTotalGrade(percent).ToString() + Environment.NewLine + "Темы для повторения:" + Environment.NewLine + themes;
-            MessageBox.Show(result, "Ваш результат");
-
+            TestResult window = new TestResult(this.GetTotalGrade(percent), percent, themes);
+            window.ShowDialog();
         }
         private JArray GetQuestionList(JArray JData)
         {
             var formedQuestions = new JArray();
             var randomQuestions = JData.OrderBy(q => random.Next()).Where(q => q["TestType"].ToString() == this.nameTheme);
-            var easyQuestions = new JArray(randomQuestions.Where(q => (int)q["Complexity"] == 1).Take(easyAmount));
-            var middleQuestions = new JArray(randomQuestions.Where(q => (int)q["Complexity"] == 2).Take(middleAmount));
-            var hardQuestions = new JArray(randomQuestions.Where(q => (int)q["Complexity"] == 3).Take(hardAmount));
+            var easyQuestions = new JArray(randomQuestions.Where(q => (int)q["Complexity"] == 1).GroupBy(q => q["Theme"]).Select(q => q.First()).Take(easyAmount));
+            var middleQuestions = new JArray(randomQuestions.Where(q => (int)q["Complexity"] == 2).GroupBy(q => q["Theme"]).Select(q => q.First()).Take(middleAmount));
+            var hardQuestions = new JArray(randomQuestions.Where(q => (int)q["Complexity"] == 3).GroupBy(q => q["Theme"]).Select(q => q.First()).Take(hardAmount));
+            //foreach (var e in easyQuestions)
+            //{
+            //    Console.WriteLine(e["Theme"]);
+            //}
+            //System.Environment.Exit(1);
+
             formedQuestions.Merge(easyQuestions);
             formedQuestions.Merge(middleQuestions);
             formedQuestions.Merge(hardQuestions);
@@ -170,7 +174,8 @@ namespace NuclearProject
             return 2;
 
         }
-        private int GetSubstactedValue(int complexity)
+
+        private int GetQuestionValue(int complexity)
         {
             if (complexity == 3)
             {
