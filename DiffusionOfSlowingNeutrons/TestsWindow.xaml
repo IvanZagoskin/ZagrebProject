@@ -20,6 +20,9 @@
                           HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold"></ComboBox>
             </StackPanel>
             <Button x:Name="btStartTest" IsEnabled="False" Click="Button_Click_Questions" Content="Начать тест" Margin="20, 20, 20, 20" Height="30" Background="CornflowerBlue"></Button>
+			<Button x:Name="btnHelp"
+                    Click="Button_Click_Help"
+                    Content="Помощь" Height="30" MinWidth="105" Margin="2,2,2,2" HorizontalAlignment="Center" Background="CornflowerBlue"/>
         </StackPanel>
     </StackPanel>
 </Window>

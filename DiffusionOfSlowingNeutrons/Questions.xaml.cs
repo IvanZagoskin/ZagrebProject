@@ -184,5 +184,11 @@ namespace NuclearProject
             return 3;
         }
 
+        private void Button_Click_Help(object sender, RoutedEventArgs e)
+        {
+            StartModelWindow win = new StartModelWindow("Questions"); //вызываем окно справки
+            win.ShowDialog();
+        }
+
     }
 }

@@ -41,6 +41,18 @@ namespace NuclearProject
                 webHelp.Navigate(pdf);
                 this.Title = "Помощь";
             }
+                else if (fileType == "Tests")
+            {
+                System.Uri pdf = new System.Uri(String.Format("file:///{0}/TESTS.pdf", Directory.GetCurrentDirectory()));
+                webHelp.Navigate(pdf);
+                this.Title = "Помощь";
+            }
+                else if (fileType == "Questions")
+            {
+                System.Uri pdf = new System.Uri(String.Format("file:///{0}/QUESTIONS.pdf", Directory.GetCurrentDirectory()));
+                webHelp.Navigate(pdf);
+                this.Title = "Помощь";
+            }
         }
     }
 }

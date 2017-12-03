@@ -46,5 +46,11 @@ namespace NuclearProject
             Questions win = new Questions(nameTheme);
             win.ShowDialog();
         }
+
+        private void Button_Click_Help(object sender, RoutedEventArgs e)
+        {
+                StartModelWindow win = new StartModelWindow("Tests"); //вызываем окно справки
+                win.ShowDialog();
+        }
     }
 }
