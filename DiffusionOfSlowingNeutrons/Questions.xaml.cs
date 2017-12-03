@@ -26,7 +26,6 @@ namespace NuclearProject
         {
             InitializeComponent();
             //TODO:wrap in file not found try catch
-            //вопросы которые были отобраны для текущего теста getQuestionList
             this.nameTheme = nameTheme;
             var JData = JArray.Parse(File.ReadAllText(filename));
             this.formedQuestions = this.GetQuestionList(JData);
@@ -96,8 +95,8 @@ namespace NuclearProject
 
         private void CheckTestResults(Dictionary<string, string> selectedAnswers)
         {
-            float points = .0f;
-            int percent = 0;
+            double points = 0;
+            double percent = 0;
             List<string> themes = new List<string>();
 
             foreach (var answer in selectedAnswers)
@@ -124,9 +123,14 @@ namespace NuclearProject
                 }
             }
 
-            points = (points < 0) ? 0 : points; 
-            percent = (int)((points / 22) * 100);
-            TestResult window = new TestResult(this.GetTotalGrade(percent), percent, themes);
+            points = (points < 0) ? 0 : points;
+            double res = (points / 22) * 100;
+            Console.WriteLine(res);
+            percent = Math.Round((points / 22) * 100, 1);
+            percent = Math.Round(percent);
+            Console.WriteLine(percent);
+           
+            TestResult window = new TestResult(this.GetTotalGrade((int)percent), (int)percent, themes);
             window.ShowDialog();
         }
         private JArray GetQuestionList(JArray JData)
