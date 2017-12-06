@@ -52,5 +52,11 @@ namespace NuclearProject
                 StartModelWindow win = new StartModelWindow("Tests"); //вызываем окно справки
                 win.ShowDialog();
         }
+
+        private void Button_Create_Test(object sender, RoutedEventArgs e)
+        {
+            CreateTestWindow win = new CreateTestWindow();
+            win.ShowDialog();
+        }
     }
 }

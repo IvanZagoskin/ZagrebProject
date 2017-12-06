@@ -11,23 +11,17 @@ using System.Threading.Tasks;
     {
 
         public static List<RootObject> data = null;
+        private const string filename = "database.json";
 
-        public static void LoadDataFromJson()
+    public static List<RootObject> LoadDataFromJson()
         {
-            using (StreamReader r = new StreamReader("database.json"))
+            using (StreamReader r = new StreamReader(filename))
             {
                 string json = r.ReadToEnd();
      
                  data = JsonConvert.DeserializeObject<List<RootObject>>(json);
 
-                /*
-                foreach (var item in items)
-                {
-                    Console.Write(item.Answers[0].Text);
-                }
-
-                Console.Read();
-                */
+            return data;
             }
         }
 

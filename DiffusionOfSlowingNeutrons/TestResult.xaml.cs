@@ -30,16 +30,17 @@ namespace NuclearProject
             this.themes = themes;
             Grade.Text = grade.ToString();
             Percent.Text = percent.ToString();
-            this.ShowThemesList();
+            ShowThemesList();
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void ShowThemesList()
         {
+            //нет тем, все правильно решено, не показываем надпись про список тем
             if(!themes.Any())
             {
                 ThemesLabel.Height = 0;
@@ -47,6 +48,7 @@ namespace NuclearProject
                 return;
             }
         
+            //выводим темы для повторения
             foreach (var theme in this.themes)
             {
                 var themeText = new TextBlock

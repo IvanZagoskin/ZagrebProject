@@ -72,6 +72,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CreateTestWindow.xaml.cs">
+      <DependentUpon>CreateTestWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DataBase\DataLoad.cs" />
     <Compile Include="EnvironmentPreset.cs" />
     <Compile Include="ModelNuclearReactor.cs" />
@@ -88,6 +91,10 @@
     <Compile Include="TestsWindow.xaml.cs">
       <DependentUpon>TestsWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="CreateTestWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
