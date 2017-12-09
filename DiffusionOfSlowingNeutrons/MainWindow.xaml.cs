@@ -86,10 +86,6 @@ namespace NuclearProject
         public MainWindow()
         {
 
-            DataLoad.LoadDataFromJson();
-
-           // MessageBox.Show(DataLoad.data[0].Answers[0].Text);
-
             InitializeComponent();
 
             lFuels = new List<Fuel>();

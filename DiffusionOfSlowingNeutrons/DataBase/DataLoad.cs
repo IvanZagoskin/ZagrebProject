@@ -11,34 +11,59 @@ using System.Threading.Tasks;
     {
 
         public static List<RootObject> data = null;
-        private const string filename = "database.json";
+        const string FILENAME = "test.json";
 
     public static List<RootObject> LoadDataFromJson()
         {
-            using (StreamReader r = new StreamReader(filename))
+            using (StreamReader r = new StreamReader(FILENAME))
             {
                 string json = r.ReadToEnd();
      
                  data = JsonConvert.DeserializeObject<List<RootObject>>(json);
 
-            return data;
             }
-        }
 
-        public class Answer
-        {
-            public string Text { get; set; }
-            public int isRight { get; set; }
-        }
+        return data;
+    }
 
-        public class RootObject
+    public static void SaveDataToJson(List<RootObject> updatedJson)
+    {
+        string json = JsonConvert.SerializeObject(updatedJson);
+        File.WriteAllText(FILENAME, json);
+    }
+
+    public class Answer
+    {
+        public string Text { get; set; }
+        public int isRight { get; set; }
+
+        public Answer(string Text, int isRight)
         {
-            public string TestType { get; set; }
-            public string Theme { get; set; }
-            public string Question { get; set; }
-            public string Complexity { get; set; }
-            public List<Answer> Answers { get; set; }
+            this.Text = Text;
+            this.isRight = isRight;
         }
+    }
+
+    public class RootObject
+    {
+        public string TestType { get; set; }
+        public string Theme { get; set; }
+        public int ID { get; set; }
+        public string Question { get; set; }
+        public string Complexity { get; set; }
+        public List<Answer> Answers { get; set; }
+
+
+        public RootObject(string TestType, string Question, string Theme, int ID, string Complexity, List<Answer> Answers)
+        {
+            this.TestType = TestType;
+            this.Question = Question;
+            this.Theme = Theme;
+            this.ID = ID;
+            this.Complexity = Complexity;
+            this.Answers = Answers;
+        }
+    }
 
 
     }

@@ -58,5 +58,11 @@ namespace NuclearProject
             CreateTestWindow win = new CreateTestWindow();
             win.ShowDialog();
         }
+
+        private void Button_Edit_Test(object sender, RoutedEventArgs e)
+        {
+            EditTestsWindow win = new EditTestsWindow();
+            win.ShowDialog();
+        }
     }
 }
