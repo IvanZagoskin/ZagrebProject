@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NuclearProject"
         mc:Ignorable="d"
-        Title="Изменить вопрос" Height="800" Width="600">
+        Title="Изменить вопрос" Height="300" Width="600">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -24,13 +24,13 @@
 введите новое название, если хотите создать новый тест. " TextWrapping="Wrap" Margin="10,5,10,0"/>
         <StackPanel Grid.Column="0" Grid.Row="1" Margin="10,5,10,0">
             <WrapPanel>
-                <ComboBox x:Name="TestTypes" Height="25" Width="380"  HorizontalAlignment="Left"/>
+                <ComboBox x:Name="TestTypes" Height="25" Width="380"  HorizontalAlignment="Left" SelectionChanged="TestTypes_SelectionChanged"/>
             </WrapPanel>
         </StackPanel>
         <TextBlock Grid.Row="2" Grid.Column="0" Text="Выберите тему " TextWrapping="Wrap" Margin="10,5,10,0"/>
         <StackPanel Grid.Column="0" Grid.Row="3" Margin="10,5,10,0">
             <WrapPanel>
-                <ComboBox x:Name="Themes" Height="25" Width="380"  HorizontalAlignment="Left"/>
+                <ComboBox x:Name="Themes" Height="25" Width="380"  HorizontalAlignment="Left" SelectionChanged="Themes_SelectionChanged"/>
             </WrapPanel>
         </StackPanel>
         <TextBlock Grid.Row="4" Grid.Column="0" Text="Выберите вопрос" TextWrapping="Wrap" Margin="10,5,10,0"/>
@@ -41,6 +41,6 @@
         </StackPanel>
         <Button Grid.Row="6"
                     Click="Next_Action_Click" 
-                    Height="30" Margin="10,10, 10, 0" Content="Далее" FontWeight="Bold" Background="CornflowerBlue"/>
+                    Height="30" Margin="10,10, 10, 0" Content="Далее" FontWeight="Bold" Background="CornflowerBlue" HorizontalAlignment="Left" Width="200"/>
     </Grid>
 </Window>

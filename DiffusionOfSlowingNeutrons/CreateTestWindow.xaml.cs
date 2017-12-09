@@ -60,10 +60,17 @@ namespace NuclearProject
             int currentId = id;
             currentId++;
 
+            if (!answers.Contains(correctAnswer))
+            {
+                MessageBox.Show("Верный ответ не совпадает ни с одним из возможных!", "Ошибка");
+                return;
+            }
+
             foreach (string answerText in answers)
             {
                 int isRight = 0;
-                if(answerText == correctAnswer)
+                //если If не был ни разу исключение
+                if (answerText == correctAnswer)
                 {
                     isRight = 1;
                 }
