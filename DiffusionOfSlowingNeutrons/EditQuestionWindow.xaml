@@ -1,0 +1,73 @@
+﻿<Window x:Class="NuclearProject.EditQuestionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NuclearProject"
+        mc:Ignorable="d"
+        Title="Изменение вопроса" Height="470" Width="450">
+    <Grid x:Name="winBody">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="450" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Если нужно перенести вопрос в другой тест, выберите его название или введите новое значение:" TextWrapping="Wrap" Margin="10,5,10,0"/>
+        <StackPanel Grid.Column="0" Grid.Row="1" Margin="10,5,10,0">
+            <WrapPanel>
+                <ComboBox x:Name="TestTypes" Height="25" Width="380"  HorizontalAlignment="Left" IsEditable="True" SelectionChanged="TestTypes_SelectionChanged"/>
+            </WrapPanel>
+        </StackPanel>
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="Измените тему вопроса на существующую в выбранном тесте, либо введите новое значение:" TextWrapping="Wrap" Margin="10,5,10,0"/>
+        <StackPanel Grid.Column="0" Grid.Row="3" Margin="10,5,10,0">
+            <WrapPanel>
+                <ComboBox x:Name="Themes" Height="25" Width="380"  HorizontalAlignment="Left" IsEditable="True"/>
+            </WrapPanel>
+        </StackPanel>
+        <TextBlock Grid.Row="4" Grid.Column="0" Text="Измените содержание вопроса" TextWrapping="Wrap" Margin="10,5,10,0"/>
+        <StackPanel Grid.Column="0" Grid.Row="5" Margin="10,5,10,0">
+            <WrapPanel>
+                <TextBox x:Name="QuestionText" Height="25" Width="380" HorizontalAlignment="Left"/>
+            </WrapPanel>
+        </StackPanel>
+        <TextBlock Grid.Row="6" Grid.Column="0" Text="Измените сложность вопроса" TextWrapping="Wrap" Margin="10,5,10,0"/>
+        <StackPanel Grid.Column="0" Grid.Row="7" Margin="10,5,10,0">
+            <WrapPanel>
+                <ComboBox x:Name="Complexity" Height="25" Width="380" HorizontalAlignment="Left">
+                    <TextBlock>1</TextBlock>
+                    <TextBlock>2</TextBlock>
+                    <TextBlock>3</TextBlock>
+                </ComboBox>
+            </WrapPanel>
+        </StackPanel>
+        <TextBlock Grid.Row="8" Grid.Column="0" Text="Измените возможные ответы" TextWrapping="Wrap" Margin="10,5,10,0"/>
+        <StackPanel Grid.Column="0" Grid.Row="9" Margin="10,5,10,0">
+            <WrapPanel>
+                <TextBox x:Name="Answers" Height="25" Width="380" HorizontalAlignment="Left"/>
+            </WrapPanel>
+        </StackPanel>
+        <TextBlock Grid.Row="10" Grid.Column="0" Text="Измените правильный ответ" TextWrapping="Wrap" Margin="10,5,10,0"/>
+        <StackPanel Grid.Column="0" Grid.Row="11" Margin="10,5,10,0">
+            <WrapPanel>
+                <TextBox x:Name="CorrectAnswer" Height="25" Width="380" HorizontalAlignment="Left"/>
+            </WrapPanel>
+        </StackPanel>
+        <Button Grid.Row="12"
+                    Click="Update_Question_Click" 
+                    Height="30" Margin="10,20, 10, 0" Content="Изменить" FontWeight="Bold" Background="CornflowerBlue" HorizontalAlignment="Left" Width="200"/>
+    </Grid>
+</Window>

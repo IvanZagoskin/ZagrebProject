@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NuclearProject"
         mc:Ignorable="d"
-        Title="Изменить вопрос" Height="300" Width="600">
+        Title="Изменить вопрос" Height="300" Width="450">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -18,7 +18,7 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="580" />
+            <ColumnDefinition Width="440" />
         </Grid.ColumnDefinitions>
         <TextBlock Grid.Row="0" Grid.Column="0" Text="Выберите существующий тест, если хотите добавить вопросы нему, или 
 введите новое название, если хотите создать новый тест. " TextWrapping="Wrap" Margin="10,5,10,0"/>
@@ -36,11 +36,11 @@
         <TextBlock Grid.Row="4" Grid.Column="0" Text="Выберите вопрос" TextWrapping="Wrap" Margin="10,5,10,0"/>
         <StackPanel Grid.Column="0" Grid.Row="5" Margin="10,5,10,0">
             <WrapPanel>
-                <ComboBox x:Name="Questions" Height="25" Width="380" HorizontalAlignment="Left"/>
+                <ComboBox x:Name="Questions" Height="25" Width="380" HorizontalAlignment="Left" SelectionChanged="Questions_SelectionChanged"/>
             </WrapPanel>
         </StackPanel>
-        <Button Grid.Row="6"
+        <Button x:Name="btnNextAction" Grid.Row="6"
                     Click="Next_Action_Click" 
-                    Height="30" Margin="10,10, 10, 0" Content="Далее" FontWeight="Bold" Background="CornflowerBlue" HorizontalAlignment="Left" Width="200"/>
+                    Height="30" Margin="10,20, 10, 0" Content="Далее" FontWeight="Bold" Background="CornflowerBlue" HorizontalAlignment="Left" Width="200" IsEnabled="False"/>
     </Grid>
 </Window>

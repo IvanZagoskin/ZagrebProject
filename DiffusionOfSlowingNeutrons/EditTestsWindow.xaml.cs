@@ -41,8 +41,10 @@ namespace NuclearProject
         private void Next_Action_Click(object sender, RoutedEventArgs e)
         {
             string selectedQuestion = Questions.SelectedValue.ToString();
-            int id = data.Where(question => question.Question == selectedQuestion).Select(question => question.ID).Single();
-
+            int id = data.Where(question => question.Question == selectedQuestion).Select(question => question.ID).First();
+                var win = new EditQuestionWindow(id);
+                win.ShowDialog();
+           
         }
 
         private void TestTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -73,6 +75,11 @@ namespace NuclearProject
                 }
             }
         
+        }
+
+        private void Questions_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            btnNextAction.IsEnabled = Questions.SelectedValue != null ? true : false;
         }
     }
 }

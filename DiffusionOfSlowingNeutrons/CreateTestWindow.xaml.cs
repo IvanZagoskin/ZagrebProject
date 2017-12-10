@@ -53,7 +53,7 @@ namespace NuclearProject
             string theme = Theme.Text.Trim();
             string[] answers = Answers.Text.Trim().Split(';');
             string correctAnswer = CorrectAnswer.Text.Trim();
-            string complexity = Complexity.Text.Trim();
+            string complexity = Complexity.Text;
 
             var answerList = new List<DataLoad.Answer>();
             var questions = new List<DataLoad.RootObject>();
