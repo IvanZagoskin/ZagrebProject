@@ -95,6 +95,12 @@ namespace NuclearProject
                 return;
             }
 
+            if (answers.Distinct().Count() != answers.Length)
+            {
+                MessageBox.Show("Вы указали повторяющийся возможный ответ!");
+                return;
+            }
+
             if (!answers.Contains(correctAnswer))
             {
                 MessageBox.Show("Верный ответ не совпадает ни с одним из возможных!", "Ошибка");
@@ -127,7 +133,7 @@ namespace NuclearProject
 
         private void Button_Click_Help(object sender, RoutedEventArgs e)
         {
-            StartModelWindow win = new StartModelWindow("ChangeQuestion"); //вызываем окно справки
+            StartModelWindow win = new StartModelWindow("ChangeSelectedQuestion"); //вызываем окно справки
             win.ShowDialog();
         }
 

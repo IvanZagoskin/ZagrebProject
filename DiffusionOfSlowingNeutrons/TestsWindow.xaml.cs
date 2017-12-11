@@ -19,16 +19,15 @@ namespace NuclearProject
     /// </summary>
     public partial class TestsWindow : Window
     {
-        List<string> lThemes;
-
+        List<DataLoad.RootObject> data;
         public TestsWindow()
         {
             InitializeComponent();
 
-            lThemes = new List<string>();
-            lThemes.Add("Базовые понятия");
-            lThemes.Add("Тепловая динамика");
-
+            data = DataLoad.LoadDataFromJson();
+            var lThemes = data.Select(q => q.TestType).Distinct();
+            
+            //todo если нет вопросов еще
             foreach(string itemThemes in lThemes)
             {
                 cmbThemes.Items.Add(itemThemes);

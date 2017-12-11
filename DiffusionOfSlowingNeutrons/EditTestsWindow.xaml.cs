@@ -67,7 +67,7 @@ namespace NuclearProject
 
         private void Button_Click_Help(object sender, RoutedEventArgs e)
         {
-            StartModelWindow win = new StartModelWindow("ChangeQuestion"); //вызываем окно справки
+            StartModelWindow win = new StartModelWindow("ChangeQuestions"); //вызываем окно справки
             win.ShowDialog();
         }
 

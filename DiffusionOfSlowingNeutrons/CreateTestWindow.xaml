@@ -28,7 +28,7 @@
 введите новое название, если хотите создать новый тест. " TextWrapping="Wrap" Margin="10,5,10,0"/>
         <StackPanel Grid.Column="0" Grid.Row="3"  Margin="10">
             <WrapPanel Margin="0,10,0,0">
-                <ComboBox x:Name="TestTypes" Height="25" Width="250" IsEditable="True" HorizontalAlignment="Left"/>
+                <ComboBox x:Name="TestTypes" Height="25" Width="250" IsEditable="True" HorizontalAlignment="Left" SelectionChanged="TestTypes_SelectionChanged"/>
             </WrapPanel>
         </StackPanel>
         <TextBlock Grid.Row="4" Grid.Column="0" Text="Обязательно заполните хотя один блок полей «Вопрос-Тема вопроса-Возможные ответы-Верный ответ-Сложность». Если вам нужно добавить 2 вопроса, то заполняйте 2 блока, если нужно 3 вопроса – 3, соответственно. 

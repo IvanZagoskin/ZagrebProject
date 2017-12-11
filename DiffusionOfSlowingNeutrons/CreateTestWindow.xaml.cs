@@ -22,7 +22,7 @@ namespace NuclearProject
     {
         List<DataLoad.RootObject> data;
         int id;
-
+        TestsWindow win;
         public CreateTestWindow()
         {
             InitializeComponent();
@@ -51,7 +51,7 @@ namespace NuclearProject
             string testType = TestTypes.Text.Trim();
             string questionText = Question.Text.Trim();
             string theme = Theme.Text.Trim();
-            string[] answers = Answers.Text.Trim().Split(';');
+            string[] answers = Answers.Text.Trim().Split(';').Select(ans => ans.Trim()).ToArray();
             string correctAnswer = CorrectAnswer.Text.Trim();
             string complexity = Complexity.Text;
 
@@ -70,6 +70,12 @@ namespace NuclearProject
             if (answers.Length > 7 || answers.Length < 2 || answers.Contains(""))
             {
                 MessageBox.Show("Введите от 2 до 7 ответов", "Ошибка");
+                return;
+            }
+
+            if (answers.Distinct().Count() != answers.Length)
+            {
+                MessageBox.Show("Вы указали повторяющийся возможный ответ!");
                 return;
             }
 
@@ -120,6 +126,17 @@ namespace NuclearProject
             }
 
             return true;
+        }
+
+        private void TestTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Theme.Items.Clear();
+            string selectedType = TestTypes.SelectedValue.ToString();
+            var themes = data.Where(question => question.TestType == selectedType).Select(question => question.Theme).Distinct();
+            foreach (var item in themes)
+            {
+                Theme.Items.Add(item);
+            }
         }
     }
 
