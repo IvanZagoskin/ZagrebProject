@@ -55,16 +55,35 @@ namespace NuclearProject
             string correctAnswer = CorrectAnswer.Text.Trim();
             string complexity = Complexity.Text;
 
-            var answerList = new List<DataLoad.Answer>();
-            var questions = new List<DataLoad.RootObject>();
-            int currentId = id;
-            currentId++;
+            if (String.IsNullOrEmpty(testType) || String.IsNullOrEmpty(questionText) || String.IsNullOrEmpty(theme) || String.IsNullOrEmpty(correctAnswer) || String.IsNullOrEmpty(complexity))
+            {
+                MessageBox.Show("Заполните все поля!", "Ошибка");
+                return;
+            }
+
+            if (!CheckUniqueQuestion(questionText))
+            {
+                MessageBox.Show("Вопрос уже существует!", "Ошибка");
+                return;
+            }
+
+            if (answers.Length > 7 || answers.Length < 2 || answers.Contains(""))
+            {
+                MessageBox.Show("Введите от 2 до 7 ответов", "Ошибка");
+                return;
+            }
 
             if (!answers.Contains(correctAnswer))
             {
                 MessageBox.Show("Верный ответ не совпадает ни с одним из возможных!", "Ошибка");
                 return;
             }
+
+            var answerList = new List<DataLoad.Answer>();
+            var questions = new List<DataLoad.RootObject>();
+            int currentId = id;
+            currentId++;
+
 
             foreach (string answerText in answers)
             {
@@ -81,11 +100,26 @@ namespace NuclearProject
             //todo if empty fields
             questions.Add(new DataLoad.RootObject(testType, questionText, theme, currentId, complexity, answerList));
             var updatedJson = data.Concat(questions).ToList();
-            //todo return true if all OK message
             DataLoad.SaveDataToJson(updatedJson);
             Close();
             MessageBox.Show("Вопросы добавлены!", "Сообщение");
             
+        }
+
+        private void Button_Click_Help(object sender, RoutedEventArgs e)
+        {
+            StartModelWindow win = new StartModelWindow("CreateQuestions"); //вызываем окно справки
+            win.ShowDialog();
+        }
+
+        private bool CheckUniqueQuestion(string questionText)
+        {
+            if (data.Where(question => question.Question == questionText).Any())
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 

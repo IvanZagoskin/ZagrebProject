@@ -21,12 +21,6 @@ namespace NuclearProject
     /// </summary>
     public partial class StartModelWindow : Window
     {
-        List<EnvironmentPreset> environments;
-        Vector3D position;
-        double energy;
-        int count;
-        EnvironmentPreset env;
-
         public StartModelWindow(string fileType)
         {
             InitializeComponent();
@@ -50,6 +44,18 @@ namespace NuclearProject
                 else if (fileType == "Questions")
             {
                 System.Uri pdf = new System.Uri(String.Format("file:///{0}/QUESTIONS.pdf", Directory.GetCurrentDirectory()));
+                webHelp.Navigate(pdf);
+                this.Title = "Помощь";
+            }
+            else if (fileType == "CreateQuestions")
+            {
+                System.Uri pdf = new System.Uri(String.Format("file:///{0}/ADD_TEST.pdf", Directory.GetCurrentDirectory()));
+                webHelp.Navigate(pdf);
+                this.Title = "Помощь";
+            }
+            else if (fileType == "ChangeQuestion")
+            {
+                System.Uri pdf = new System.Uri(String.Format("file:///{0}/CHANGE_QUESTION.pdf", Directory.GetCurrentDirectory()));
                 webHelp.Navigate(pdf);
                 this.Title = "Помощь";
             }

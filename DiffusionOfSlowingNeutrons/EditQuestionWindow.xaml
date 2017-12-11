@@ -21,31 +21,34 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
-
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="450" />
         </Grid.ColumnDefinitions>
-        <TextBlock Grid.Row="0" Grid.Column="0" Text="Если нужно перенести вопрос в другой тест, выберите его название или введите новое значение:" TextWrapping="Wrap" Margin="10,5,10,0"/>
-        <StackPanel Grid.Column="0" Grid.Row="1" Margin="10,5,10,0">
+        <Button x:Name="btnHelp"
+                    Click="Button_Click_Help"
+                    Content="Помощь" Height="30" Grid.Row="0"  MinWidth="150" Margin="10,2,2,10" HorizontalAlignment="Left" Background="CornflowerBlue"/>
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Если нужно перенести вопрос в другой тест, выберите его название или введите новое значение:" TextWrapping="Wrap" Margin="10,5,10,0"/>
+        <StackPanel Grid.Column="0" Grid.Row="2" Margin="10,5,10,0">
             <WrapPanel>
                 <ComboBox x:Name="TestTypes" Height="25" Width="380"  HorizontalAlignment="Left" IsEditable="True" SelectionChanged="TestTypes_SelectionChanged"/>
             </WrapPanel>
         </StackPanel>
-        <TextBlock Grid.Row="2" Grid.Column="0" Text="Измените тему вопроса на существующую в выбранном тесте, либо введите новое значение:" TextWrapping="Wrap" Margin="10,5,10,0"/>
-        <StackPanel Grid.Column="0" Grid.Row="3" Margin="10,5,10,0">
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="Измените тему вопроса на существующую в выбранном тесте, либо введите новое значение:" TextWrapping="Wrap" Margin="10,5,10,0"/>
+        <StackPanel Grid.Column="0" Grid.Row="4" Margin="10,5,10,0">
             <WrapPanel>
                 <ComboBox x:Name="Themes" Height="25" Width="380"  HorizontalAlignment="Left" IsEditable="True"/>
             </WrapPanel>
         </StackPanel>
-        <TextBlock Grid.Row="4" Grid.Column="0" Text="Измените содержание вопроса" TextWrapping="Wrap" Margin="10,5,10,0"/>
-        <StackPanel Grid.Column="0" Grid.Row="5" Margin="10,5,10,0">
+        <TextBlock Grid.Row="5" Grid.Column="0" Text="Измените содержание вопроса" TextWrapping="Wrap" Margin="10,5,10,0"/>
+        <StackPanel Grid.Column="0" Grid.Row="6" Margin="10,5,10,0">
             <WrapPanel>
                 <TextBox x:Name="QuestionText" Height="25" Width="380" HorizontalAlignment="Left"/>
             </WrapPanel>
         </StackPanel>
-        <TextBlock Grid.Row="6" Grid.Column="0" Text="Измените сложность вопроса" TextWrapping="Wrap" Margin="10,5,10,0"/>
-        <StackPanel Grid.Column="0" Grid.Row="7" Margin="10,5,10,0">
+        <TextBlock Grid.Row="7" Grid.Column="0" Text="Измените сложность вопроса" TextWrapping="Wrap" Margin="10,5,10,0"/>
+        <StackPanel Grid.Column="0" Grid.Row="8" Margin="10,5,10,0">
             <WrapPanel>
                 <ComboBox x:Name="Complexity" Height="25" Width="380" HorizontalAlignment="Left">
                     <TextBlock>1</TextBlock>
@@ -54,19 +57,19 @@
                 </ComboBox>
             </WrapPanel>
         </StackPanel>
-        <TextBlock Grid.Row="8" Grid.Column="0" Text="Измените возможные ответы" TextWrapping="Wrap" Margin="10,5,10,0"/>
-        <StackPanel Grid.Column="0" Grid.Row="9" Margin="10,5,10,0">
+        <TextBlock Grid.Row="9" Grid.Column="0" Text="Измените возможные ответы" TextWrapping="Wrap" Margin="10,5,10,0"/>
+        <StackPanel Grid.Column="0" Grid.Row="10" Margin="10,5,10,0">
             <WrapPanel>
                 <TextBox x:Name="Answers" Height="25" Width="380" HorizontalAlignment="Left"/>
             </WrapPanel>
         </StackPanel>
-        <TextBlock Grid.Row="10" Grid.Column="0" Text="Измените правильный ответ" TextWrapping="Wrap" Margin="10,5,10,0"/>
-        <StackPanel Grid.Column="0" Grid.Row="11" Margin="10,5,10,0">
+        <TextBlock Grid.Row="11" Grid.Column="0" Text="Измените правильный ответ" TextWrapping="Wrap" Margin="10,5,10,0"/>
+        <StackPanel Grid.Column="0" Grid.Row="12" Margin="10,5,10,0">
             <WrapPanel>
                 <TextBox x:Name="CorrectAnswer" Height="25" Width="380" HorizontalAlignment="Left"/>
             </WrapPanel>
         </StackPanel>
-        <Button Grid.Row="12"
+        <Button Grid.Row="13"
                     Click="Update_Question_Click" 
                     Height="30" Margin="10,20, 10, 0" Content="Изменить" FontWeight="Bold" Background="CornflowerBlue" HorizontalAlignment="Left" Width="200"/>
     </Grid>

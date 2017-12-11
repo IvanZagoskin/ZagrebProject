@@ -22,6 +22,7 @@ namespace NuclearProject
         int id;
         List<DataLoad.RootObject> data;
         DataLoad.RootObject QObject;
+
         public EditQuestionWindow(int id)
         {
             InitializeComponent();
@@ -69,14 +70,6 @@ namespace NuclearProject
 
         private void Update_Question_Click(object sender, RoutedEventArgs e)
         {
-            //var textBoxText = winBody.Children.OfType<StackPanel>().First();
-            //Console.WriteLine(textBoxText);
-            //if (textBoxText)
-            //{
-            //    MessageBox.Show("Проверьте заполнение обязательных полей!", "Ошибка");
-            //    return;
-            //}
-
             string testType = TestTypes.Text.Trim();
             string questionText = QuestionText.Text.Trim();
             string theme = Themes.Text.Trim();
@@ -84,14 +77,31 @@ namespace NuclearProject
             string correctAnswer = CorrectAnswer.Text.Trim();
             string complexity = Complexity.Text;
 
-            var answerList = new List<DataLoad.Answer>();
+            if (String.IsNullOrEmpty(testType) || String.IsNullOrEmpty(questionText) || String.IsNullOrEmpty(theme) || String.IsNullOrEmpty(correctAnswer) || String.IsNullOrEmpty(complexity))
+            {
+                MessageBox.Show("Заполните все поля!", "Ошибка");
+                return;
+            }
 
- 
+            if (!CheckUniqueQuestion(questionText))
+            {
+                MessageBox.Show("Вопрос уже существует!", "Ошибка");
+                return;
+            }
+
+            if (answers.Length > 7 || answers.Length < 2 || answers.Contains(""))
+            {
+                MessageBox.Show("Введите от 2 до 7 ответов", "Ошибка");
+                return;
+            }
+
             if (!answers.Contains(correctAnswer))
             {
                 MessageBox.Show("Верный ответ не совпадает ни с одним из возможных!", "Ошибка");
                 return;
             }
+
+            var answerList = new List<DataLoad.Answer>();
 
             foreach (string answerText in answers)
             {
@@ -103,14 +113,22 @@ namespace NuclearProject
                 answerList.Add(new DataLoad.Answer(answerText, isRight));
             }
 
+            //обновляем вопрос
             QObject.TestType = testType;
             QObject.Question = questionText;
             QObject.Theme = theme;
             QObject.Complexity = complexity;
             QObject.Answers = answerList;
+
             DataLoad.SaveDataToJson(data);
             Close();
             MessageBox.Show("Вопрос обновлен!", "Сообщение");
+        }
+
+        private void Button_Click_Help(object sender, RoutedEventArgs e)
+        {
+            StartModelWindow win = new StartModelWindow("ChangeQuestion"); //вызываем окно справки
+            win.ShowDialog();
         }
 
         private void TestTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -122,6 +140,17 @@ namespace NuclearProject
             {
                 Themes.Items.Add(item);
             }
+        }
+
+        private bool CheckUniqueQuestion(string questionText)
+        {
+
+            if (data.Where(q => q.Question == questionText).Where(q => q.ID != this.id).Any())
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

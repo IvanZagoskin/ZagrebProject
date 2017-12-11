@@ -47,6 +47,30 @@ namespace NuclearProject
            
         }
 
+        private void Delete_Question_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Вы действительно хотите удалить данный вопрос?", "Подтвердите удаление", System.Windows.MessageBoxButton.YesNo);
+            if (messageBoxResult == MessageBoxResult.Yes)
+            {
+                string selectedQuestionText = Questions.SelectedValue.ToString();
+                var selectedQuestion = data.Where(question => question.Question == selectedQuestionText).First();
+                data.Remove(selectedQuestion);
+                DataLoad.SaveDataToJson(data);
+                Close();
+                MessageBox.Show("Вопрос удален!", "Сообщение");
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        private void Button_Click_Help(object sender, RoutedEventArgs e)
+        {
+            StartModelWindow win = new StartModelWindow("ChangeQuestion"); //вызываем окно справки
+            win.ShowDialog();
+        }
+
         private void TestTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Themes.Items.Clear();
@@ -80,6 +104,7 @@ namespace NuclearProject
         private void Questions_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             btnNextAction.IsEnabled = Questions.SelectedValue != null ? true : false;
+            btnDeleteQuestion.IsEnabled = Questions.SelectedValue != null ? true : false;
         }
     }
 }

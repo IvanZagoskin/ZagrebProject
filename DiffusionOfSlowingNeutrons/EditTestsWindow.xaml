@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NuclearProject"
         mc:Ignorable="d"
-        Title="Изменить вопрос" Height="300" Width="450">
+        Title="Изменить вопрос" Height="330" Width="450">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -20,27 +20,33 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="440" />
         </Grid.ColumnDefinitions>
-        <TextBlock Grid.Row="0" Grid.Column="0" Text="Выберите существующий тест, если хотите добавить вопросы нему, или 
+        <Button x:Name="btnHelp"
+                    Click="Button_Click_Help"
+                    Content="Помощь" Height="30" Grid.Row="0"  MinWidth="150" Margin="10,2,2,10" HorizontalAlignment="Left" Background="CornflowerBlue"/>
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Выберите существующий тест, если хотите добавить вопросы нему, или 
 введите новое название, если хотите создать новый тест. " TextWrapping="Wrap" Margin="10,5,10,0"/>
-        <StackPanel Grid.Column="0" Grid.Row="1" Margin="10,5,10,0">
+        <StackPanel Grid.Column="0" Grid.Row="2" Margin="10,5,10,0">
             <WrapPanel>
                 <ComboBox x:Name="TestTypes" Height="25" Width="380"  HorizontalAlignment="Left" SelectionChanged="TestTypes_SelectionChanged"/>
             </WrapPanel>
         </StackPanel>
-        <TextBlock Grid.Row="2" Grid.Column="0" Text="Выберите тему " TextWrapping="Wrap" Margin="10,5,10,0"/>
-        <StackPanel Grid.Column="0" Grid.Row="3" Margin="10,5,10,0">
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="Выберите тему " TextWrapping="Wrap" Margin="10,5,10,0"/>
+        <StackPanel Grid.Column="0" Grid.Row="4" Margin="10,5,10,0">
             <WrapPanel>
                 <ComboBox x:Name="Themes" Height="25" Width="380"  HorizontalAlignment="Left" SelectionChanged="Themes_SelectionChanged"/>
             </WrapPanel>
         </StackPanel>
-        <TextBlock Grid.Row="4" Grid.Column="0" Text="Выберите вопрос" TextWrapping="Wrap" Margin="10,5,10,0"/>
-        <StackPanel Grid.Column="0" Grid.Row="5" Margin="10,5,10,0">
+        <TextBlock Grid.Row="5" Grid.Column="0" Text="Выберите вопрос" TextWrapping="Wrap" Margin="10,5,10,0"/>
+        <StackPanel Grid.Column="0" Grid.Row="6" Margin="10,5,10,0">
             <WrapPanel>
                 <ComboBox x:Name="Questions" Height="25" Width="380" HorizontalAlignment="Left" SelectionChanged="Questions_SelectionChanged"/>
             </WrapPanel>
         </StackPanel>
-        <Button x:Name="btnNextAction" Grid.Row="6"
+        <Button x:Name="btnNextAction" Grid.Row="7"
                     Click="Next_Action_Click" 
-                    Height="30" Margin="10,20, 10, 0" Content="Далее" FontWeight="Bold" Background="CornflowerBlue" HorizontalAlignment="Left" Width="200" IsEnabled="False"/>
+                    Height="30" Margin="10,20, 10, 0" Content="Далее" FontWeight="Bold" Background="CornflowerBlue" HorizontalAlignment="Left" Width="145" IsEnabled="False"/>
+        <Button x:Name="btnDeleteQuestion" Grid.Row="7"
+                    Click="Delete_Question_Click" 
+                    Height="30" Margin="243,24,0,0" Content="Удалить" FontWeight="Bold" Background="CornflowerBlue" HorizontalAlignment="Left" Width="145" IsEnabled="False" Grid.RowSpan="2"/>
     </Grid>
 </Window>
