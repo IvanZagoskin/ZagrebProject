@@ -20,15 +20,17 @@ namespace NuclearProject
     public partial class EditTestsWindow : Window
     {
         List<DataLoad.RootObject> data;
-        public EditTestsWindow()
+        TestsWindow testWindow;
+
+        public EditTestsWindow(TestsWindow testWindow)
         {
             InitializeComponent();
             data = DataLoad.LoadDataFromJson();
-
+            this.testWindow = testWindow;
             if (data != null)
             {
-                var types = data.Select(question => question.TestType).Distinct();
-                var allThemes = data.Select(question => question.Theme).Distinct();
+                var types = DataLoad.GetQuestionTypes();
+                var allThemes = DataLoad.GetQuestionThemes();
                 foreach (var type in types)
                 {
                     TestTypes.Items.Add(type);
@@ -41,28 +43,36 @@ namespace NuclearProject
         private void Next_Action_Click(object sender, RoutedEventArgs e)
         {
             string selectedQuestion = Questions.SelectedValue.ToString();
-            int id = data.Where(question => question.Question == selectedQuestion).Select(question => question.ID).First();
-                var win = new EditQuestionWindow(id);
-                win.ShowDialog();
-           
+            int id = DataLoad.GetQuestionId(selectedQuestion);
+            var win = new EditQuestionWindow(id, this.testWindow);
+            win.ShowDialog();
+
         }
 
         private void Delete_Question_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Вы действительно хотите удалить данный вопрос?", "Подтвердите удаление", System.Windows.MessageBoxButton.YesNo);
+            MessageBoxResult messageBoxResult = MessageBox.Show("Вы действительно хотите удалить данный вопрос?", "Подтвердите удаление", MessageBoxButton.YesNo);
             if (messageBoxResult == MessageBoxResult.Yes)
             {
                 string selectedQuestionText = Questions.SelectedValue.ToString();
-                var selectedQuestion = data.Where(question => question.Question == selectedQuestionText).First();
+                var selectedQuestion = DataLoad.GetQuestionByText(selectedQuestionText);
+
                 data.Remove(selectedQuestion);
                 DataLoad.SaveDataToJson(data);
+
+                var questionTestTypes = DataLoad.GetQuestionTypes();
+                var currentItems = testWindow.cmbThemes.Items;
+                currentItems.Clear();
+                foreach (var type in questionTestTypes)
+                {
+                    currentItems.Add(type);
+                }
                 Close();
                 MessageBox.Show("Вопрос удален!", "Сообщение");
-            }
-            else
-            {
                 return;
             }
+
+            return;
         }
 
         private void Button_Click_Help(object sender, RoutedEventArgs e)
@@ -75,30 +85,33 @@ namespace NuclearProject
         {
             Themes.Items.Clear();
             Questions.Items.Clear();
+
             string selectedType = TestTypes.SelectedValue.ToString();
-            var themes = data.Where(question => question.TestType == selectedType).Select(question => question.Theme).Distinct();
+            var themes = DataLoad.GetThemesInType(selectedType);
             foreach (var item in themes)
             {
                 Themes.Items.Add(item);
             }
-           
+
         }
 
         private void Themes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Questions.Items.Clear();
+
             string selectedType = TestTypes.SelectedValue.ToString();
             var theme = Themes.SelectedValue;
+
             if (theme != null)
             {
                 string selectedTheme = theme.ToString();
-                var questions = data.Where(question => (question.Theme == selectedTheme) && (question.TestType == selectedType)).Select(question => question.Question).Distinct();
+                var questions = DataLoad.GetQuestionsInTheme(selectedTheme, selectedType);
                 foreach (var item in questions)
                 {
                     Questions.Items.Add(item);
                 }
             }
-        
+
         }
 
         private void Questions_SelectionChanged(object sender, SelectionChangedEventArgs e)

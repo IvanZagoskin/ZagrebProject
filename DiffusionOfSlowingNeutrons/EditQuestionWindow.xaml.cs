@@ -22,50 +22,16 @@ namespace NuclearProject
         int id;
         List<DataLoad.RootObject> data;
         DataLoad.RootObject QObject;
+        TestsWindow testWindow;
 
-        public EditQuestionWindow(int id)
+        public EditQuestionWindow(int id, TestsWindow testWindow)
         {
             InitializeComponent();
             data = DataLoad.LoadDataFromJson();
             this.id = id;
-            //значения выбранного вопроса
-            var editableQuestion = data.Where(question => question.ID == this.id);
-
-            QObject = editableQuestion.First();
-
-            var QTheme = editableQuestion.Select(q => q.Theme).First();
-            var QType = editableQuestion.Select(q => q.TestType).First();
-            var QComplexity = Int32.Parse(editableQuestion.Select(q => q.Complexity).First());
-            var QText = editableQuestion.Select(q => q.Question).First();
-            var answers = editableQuestion.Select(q => q.Answers).First(); 
-            
-
-            var types = data.Select(question => question.TestType).Distinct();
-            var allThemes = data.Select(question => question.Theme).Distinct();
-            string answersString = "";
-            string correctAnswer = "";
-
-            //устанавливаем дефолтные значения 
-            QuestionText.Text = QText;
-            foreach (var type in types)
-            {
-                TestTypes.Items.Add(type);
-                TestTypes.SelectedIndex = TestTypes.Items.IndexOf(QType);
-            }
-
-            foreach (var theme in allThemes)
-            {
-                Themes.Items.Add(theme);
-                Themes.SelectedIndex = Themes.Items.IndexOf(QTheme);
-            }
-
-            answersString = String.Join(";", answers.Select(answer => answer.Text));
-            correctAnswer = answers.Where(answer => answer.isRight == 1).Select(answer => answer.Text).First();
-
-            Answers.Text = answersString;
-            CorrectAnswer.Text = correctAnswer;
-            Complexity.SelectedIndex = QComplexity - 1;
-
+            this.testWindow= testWindow;
+            QObject = DataLoad.GetQuestionById(this.id);
+            SetDefaultValues();
         }
 
         private void Update_Question_Click(object sender, RoutedEventArgs e)
@@ -83,7 +49,7 @@ namespace NuclearProject
                 return;
             }
 
-            if (!CheckUniqueQuestion(questionText))
+            if (!DataLoad.CheckUniqueQuestion(questionText, this.id))
             {
                 MessageBox.Show("Вопрос уже существует!", "Ошибка");
                 return;
@@ -127,6 +93,13 @@ namespace NuclearProject
             QObject.Answers = answerList;
 
             DataLoad.SaveDataToJson(data);
+            var questionTestTypes = DataLoad.GetQuestionTypes();
+            var currentItems = testWindow.cmbThemes.Items;
+            currentItems.Clear();
+            foreach (var type in questionTestTypes)
+            {
+                currentItems.Add(type);
+            }
             Close();
             MessageBox.Show("Вопрос обновлен!", "Сообщение");
         }
@@ -140,23 +113,53 @@ namespace NuclearProject
         private void TestTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Themes.Items.Clear();
-            string selectedType = TestTypes.SelectedValue.ToString();
-            var themes = data.Where(question => question.TestType == selectedType).Select(question => question.Theme).Distinct();
-            foreach (var item in themes)
+            var selectedType = TestTypes.SelectedValue;
+            if (selectedType != null)
             {
-                Themes.Items.Add(item);
+                var themes = DataLoad.GetThemesInType(selectedType.ToString());
+                foreach (var item in themes)
+                {
+                    Themes.Items.Add(item);
+                }
+
             }
+
         }
 
-        private bool CheckUniqueQuestion(string questionText)
+        private void SetDefaultValues()
         {
+            var QTheme = QObject.Theme;
+            var QType = QObject.TestType;
+            var QComplexity = Int32.Parse(QObject.Complexity);
+            var QText = QObject.Question;
+            var answers = QObject.Answers;
 
-            if (data.Where(q => q.Question == questionText).Where(q => q.ID != this.id).Any())
+            var types = DataLoad.GetQuestionTypes();
+            var allThemes = DataLoad.GetQuestionThemes();
+            string answersString = "";
+            string correctAnswer = "";
+
+            //устанавливаем дефолтные значения 
+            QuestionText.Text = QText;
+            foreach (var type in types)
             {
-                return false;
+                TestTypes.Items.Add(type);
+                TestTypes.SelectedIndex = TestTypes.Items.IndexOf(QType);
             }
 
-            return true;
+            foreach (var theme in allThemes)
+            {
+                Themes.Items.Add(theme);
+                Themes.SelectedIndex = Themes.Items.IndexOf(QTheme);
+            }
+
+            answersString = String.Join(";", answers.Select(answer => answer.Text));
+            correctAnswer = answers.Where(answer => answer.isRight == 1).Select(answer => answer.Text).First();
+
+            Answers.Text = answersString;
+            CorrectAnswer.Text = correctAnswer;
+            Complexity.SelectedIndex = QComplexity - 1;
+
         }
     }
 }

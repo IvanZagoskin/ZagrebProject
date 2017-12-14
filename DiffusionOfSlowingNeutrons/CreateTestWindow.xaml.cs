@@ -23,18 +23,20 @@ namespace NuclearProject
         List<DataLoad.RootObject> data;
         int id;
         TestsWindow win;
-        public CreateTestWindow()
+
+        public CreateTestWindow(TestsWindow win)
         {
             InitializeComponent();
-            data = DataLoad.LoadDataFromJson();
+            data = DataLoad.LoadDataFromJson(); //получаем данные из json
+            this.win = win; //ссылка на главное окно с тестами
 
             if (data != null)
             {
-                var types = data.Select(question => question.TestType).Distinct();
-                var allThemes = data.Select(question => question.Theme).Distinct();
+                var types = DataLoad.GetQuestionTypes();
+                var allThemes = DataLoad.GetQuestionThemes();
+                id = DataLoad.GetMaxQuestionId();
 
-                id = data.Select(question => question.ID).Max();
-
+                //добаляем темы и типы тестов в списки
                 foreach (var type in types)
                 {
                     TestTypes.Items.Add(type);
@@ -48,6 +50,7 @@ namespace NuclearProject
 
         private void Save_Tests(object sender, RoutedEventArgs e)
         {
+            //получаем данные из полей
             string testType = TestTypes.Text.Trim();
             string questionText = Question.Text.Trim();
             string theme = Theme.Text.Trim();
@@ -61,7 +64,7 @@ namespace NuclearProject
                 return;
             }
 
-            if (!CheckUniqueQuestion(questionText))
+            if (!DataLoad.CheckUniqueQuestion(questionText))
             {
                 MessageBox.Show("Вопрос уже существует!", "Ошибка");
                 return;
@@ -87,14 +90,14 @@ namespace NuclearProject
 
             var answerList = new List<DataLoad.Answer>();
             var questions = new List<DataLoad.RootObject>();
+            //увеличиваем id на 1 (автоинкремент)
             int currentId = id;
             currentId++;
 
-
+            //заполняем список ответов вопроса
             foreach (string answerText in answers)
             {
                 int isRight = 0;
-                //если If не был ни разу исключение
                 if (answerText == correctAnswer)
                 {
                     isRight = 1;
@@ -102,14 +105,25 @@ namespace NuclearProject
                 answerList.Add(new DataLoad.Answer(answerText, isRight));
             }
 
-            //todo foreach all questions
-            //todo if empty fields
+            //добавляем вопрос и обновляем json
             questions.Add(new DataLoad.RootObject(testType, questionText, theme, currentId, complexity, answerList));
             var updatedJson = data.Concat(questions).ToList();
             DataLoad.SaveDataToJson(updatedJson);
+
+            var questionTestTypes = questions.Select(q => q.TestType).Distinct();
+            //добавляем новые типы тестов в выпдающий список окна с тестированием
+            var currentItems = win.cmbThemes.Items;
+            foreach (var type in questionTestTypes)
+            {
+                if (!currentItems.Contains(type))
+                {
+                    currentItems.Add(type);
+                }
+            }
+
             Close();
             MessageBox.Show("Вопросы добавлены!", "Сообщение");
-            
+
         }
 
         private void Button_Click_Help(object sender, RoutedEventArgs e)
@@ -118,24 +132,18 @@ namespace NuclearProject
             win.ShowDialog();
         }
 
-        private bool CheckUniqueQuestion(string questionText)
-        {
-            if (data.Where(question => question.Question == questionText).Any())
-            {
-                return false;
-            }
-
-            return true;
-        }
-
         private void TestTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Theme.Items.Clear();
-            string selectedType = TestTypes.SelectedValue.ToString();
-            var themes = data.Where(question => question.TestType == selectedType).Select(question => question.Theme).Distinct();
-            foreach (var item in themes)
+            var selectedType = TestTypes.SelectedValue;
+            if (selectedType != null)
             {
-                Theme.Items.Add(item);
+                var themes = DataLoad.GetThemesInType(selectedType.ToString());
+                foreach (var item in themes)
+                {
+                    Theme.Items.Add(item);
+                }
+
             }
         }
     }

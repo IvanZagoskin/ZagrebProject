@@ -54,13 +54,13 @@ namespace NuclearProject
 
         private void Button_Create_Test(object sender, RoutedEventArgs e)
         {
-            CreateTestWindow win = new CreateTestWindow();
+            CreateTestWindow win = new CreateTestWindow(this);
             win.ShowDialog();
         }
 
         private void Button_Edit_Test(object sender, RoutedEventArgs e)
         {
-            EditTestsWindow win = new EditTestsWindow();
+            EditTestsWindow win = new EditTestsWindow(this);
             win.ShowDialog();
         }
     }
