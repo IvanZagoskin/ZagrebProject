@@ -122,7 +122,7 @@ namespace NuclearProject
             }
 
             Close();
-            MessageBox.Show("Вопросы добавлены!", "Сообщение");
+            MessageBox.Show("Вопрос добавлен!", "Сообщение");
 
         }
 

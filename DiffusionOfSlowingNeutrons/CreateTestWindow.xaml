@@ -5,9 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NuclearProject"
         mc:Ignorable="d"
-        Title="Добавить тест" Height="600" Width="600">
+        Title="Добавление вопроса" Height="600" Width="600">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
@@ -23,33 +31,41 @@
         <Button x:Name="btnHelp"
                     Click="Button_Click_Help"
                     Content="Помощь" Height="30" Grid.Row="0"  MinWidth="150" Margin="10,2,2,10" HorizontalAlignment="Left" Background="CornflowerBlue"/>
-        <TextBlock Grid.Row="2" Grid.Column="0" Text="Выберите существующий тест, если хотите добавить вопросы нему, или 
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Выберите существующий тест, если хотите добавить вопросы нему, или 
 введите новое название, если хотите создать новый тест. " TextWrapping="Wrap" Margin="10,5,10,0"/>
-        <StackPanel Grid.Column="0" Grid.Row="3"  Margin="10">
-            <WrapPanel Margin="0,10,0,0">
+        <StackPanel Grid.Column="0" Grid.Row="2"  Margin="10, 5,10,0">
+            <WrapPanel>
                 <ComboBox x:Name="TestTypes" Height="25" Width="250" IsEditable="True" HorizontalAlignment="Left" SelectionChanged="TestTypes_SelectionChanged"/>
             </WrapPanel>
         </StackPanel>
-        <TextBlock Grid.Row="4" Grid.Column="0" Text="Обязательно заполните хотя один блок полей «Вопрос-Тема вопроса-Возможные ответы-Верный ответ-Сложность». Минимальное количество ответов – 2, максмальное количество ответов – 7." TextWrapping="Wrap" Margin="10"/>
-        <StackPanel x:Uid="1" Grid.Column="0" Grid.Row="5" Margin="10,5,10,0">
-            <WrapPanel Margin="0,0,0,0">
-                <Label Content="Введите текст вопроса"/>
-                <TextBox x:Name="Question" Width="380"></TextBox>
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="Обязательно заполните хотя один блок полей «Вопрос-Тема вопроса-Возможные ответы-Верный ответ-Сложность». Минимальное количество ответов – 2, максмальное количество ответов – 7." TextWrapping="Wrap" Margin="10"/>
+        <TextBlock Grid.Column="0" Grid.Row="4" Text="Введите текст вопроса" TextWrapping="Wrap"  Margin="10,0,10,0"/>
+        <StackPanel Grid.Column="0" Grid.Row="5" Margin="10,5,10,0">
+            <WrapPanel>
+                <TextBox x:Name="Question" Height="25" Width="380"></TextBox>
             </WrapPanel>
-            <WrapPanel Margin="0,15,0,0">
-                <Label Content="Введите тему вопроса"/>
+        </StackPanel>
+        <TextBlock Grid.Row="6" Grid.Column="0"  Text="Введите тему вопроса"  Margin="10,5,10,0"/>
+        <StackPanel Grid.Column="0" Grid.Row="7" Margin="10,5,10,0">
+            <WrapPanel>
                 <ComboBox x:Name="Theme" Height="25" Width="250" IsEditable="True" HorizontalAlignment="Left"/>
             </WrapPanel>
-            <WrapPanel Margin="0,15,0,0">
-                <Label Content="Введите ответы на вопрос"/>
-                <TextBox x:Name="Answers" Width="380"></TextBox>
+        </StackPanel>
+        <TextBlock Grid.Row="8" Grid.Column="0"  Text="Введите ответы на вопрос через точку с запятой"  Margin="10,5,10,0"/>
+        <StackPanel Grid.Column="0" Grid.Row="9" Margin="10,5,10,0">
+            <WrapPanel>
+                <TextBox x:Name="Answers" Height="25" Width="380"></TextBox>
             </WrapPanel>
-            <WrapPanel Margin="0,15,0,0">
-                <Label Content="Правильный ответ"/>
-                <TextBox x:Name="CorrectAnswer" Width="380"></TextBox>
+        </StackPanel>
+        <TextBlock Grid.Row="10" Grid.Column="0"  Text="Введите верный ответ, будьте внимательны, вводите текст в точности такой же, какой вы указали в возможных ответах"  Margin="10,5,10,0"/>
+        <StackPanel Grid.Column="0" Grid.Row="11" Margin="10,5,10,0">
+            <WrapPanel>
+                <TextBox x:Name="CorrectAnswer" Height="25" Width="380"></TextBox>
             </WrapPanel>
-            <WrapPanel Margin="0,15,0,0">
-                <Label Content="Сложность вопроса"/>
+        </StackPanel>
+        <TextBlock Grid.Row="12" Grid.Column="0"  Text="Введите сложность вопроса"  Margin="10,5,10,0"/>
+        <StackPanel Grid.Column="0" Grid.Row="13" Margin="10,5,10,0">
+            <WrapPanel>
                 <ComboBox x:Name="Complexity" Height="25" Width="250" IsEditable="False" HorizontalAlignment="Left">
                     <TextBlock>1</TextBlock>
                     <TextBlock>2</TextBlock>
@@ -57,7 +73,7 @@
                 </ComboBox>
             </WrapPanel>
         </StackPanel>
-        <Button Grid.Row="6" x:Name="StartModel" 
+        <Button Grid.Row="14" x:Name="StartModel" 
                     Click="Save_Tests" 
                     Height="30" Margin="10,10, 10, 0" Content="Сохранить" FontWeight="Bold" Background="CornflowerBlue"/>
     </Grid>

@@ -25,7 +25,7 @@
                     Content="Помощь" Height="30" MinWidth="250" Margin="2,2,2,2" HorizontalAlignment="Center" Background="CornflowerBlue"/>
             <Button x:Name="createTest"
                     Click="Button_Create_Test"
-                    Content="Добавить тест" Height="30" MinWidth="250" Margin="2,10,2,2" HorizontalAlignment="Center" Background="CornflowerBlue"/>
+                    Content="Добавить вопрос" Height="30" MinWidth="250" Margin="2,10,2,2" HorizontalAlignment="Center" Background="CornflowerBlue"/>
             <Button x:Name="editTest"
                     Click="Button_Edit_Test"
                     Content="Изменить вопрос" Height="30" MinWidth="250" Margin="2,10,2,2" HorizontalAlignment="Center" Background="CornflowerBlue"/>
