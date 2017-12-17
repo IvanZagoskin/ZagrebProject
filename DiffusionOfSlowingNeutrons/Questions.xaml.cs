@@ -14,11 +14,9 @@ namespace NuclearProject
     public partial class Questions : Window
     {
         private List<DataLoad.RootObject> formedQuestions;
+        List<DataLoad.RootObject> data;
         private string nameTheme;
         private const int totalNumber = 10;
-        private const int easyAmount = 4;
-        private const int middleAmount = 4;
-        private const int hardAmount = 2;
         private readonly Random random = new Random();
 
         public Questions(string nameTheme)
@@ -27,11 +25,11 @@ namespace NuclearProject
             //TODO:wrap in file not found try catch
             this.nameTheme = nameTheme;
             //получаем вопросы и ответы как лист
-            var data = DataLoad.LoadDataFromJson();
+            data = DataLoad.LoadDataFromJson();
             //формируем список вопросов
-            this.formedQuestions = GetQuestionList(data);
+            formedQuestions = DataLoad.GetQuestionList(this.nameTheme);
             //кладем сформированный список
-            LoadQuestions(this.formedQuestions);
+            LoadQuestions(formedQuestions);
         }
         //добавляем список вопросов в окно
         private void LoadQuestions(List<DataLoad.RootObject> formedQuestions)
@@ -136,17 +134,6 @@ namespace NuclearProject
             window.ShowDialog();
         }
    
-        private List<DataLoad.RootObject> GetQuestionList(List<DataLoad.RootObject> JData)
-        {
-            var randomQuestions = JData.OrderBy(q => random.Next()).Where(q => q.TestType.ToString() == this.nameTheme);
-
-            var easyQuestions = randomQuestions.Where(q => q.Complexity == "1").GroupBy(q => q.Theme).Select(q => q.First()).Take(easyAmount).ToList();
-            var middleQuestions = randomQuestions.Where(q => q.Complexity == "2").GroupBy(q => q.Theme).Select(q => q.First()).Take(middleAmount).ToList();
-            var hardQuestions = randomQuestions.Where(q => q.Complexity == "3").GroupBy(q => q.Theme).Select(q => q.First()).Take(hardAmount).ToList();
-
-            return easyQuestions.Concat(middleQuestions).Concat(hardQuestions).ToList();
-        }
-
         private int GetTotalGrade(int percent)
         {
             if (percent >= 0 && percent <= 45)

@@ -43,7 +43,8 @@ namespace NuclearProject
         private void Next_Action_Click(object sender, RoutedEventArgs e)
         {
             string selectedQuestion = Questions.SelectedValue.ToString();
-            int id = DataLoad.GetQuestionId(selectedQuestion);
+            var question = DataLoad.GetQuestionByText(selectedQuestion);
+            int id = question.ID;
             var win = new EditQuestionWindow(id, this.testWindow);
             win.ShowDialog();
 

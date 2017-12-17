@@ -12,6 +12,9 @@ class DataLoad
 
     public static List<RootObject> data = null;
     const string FILENAME = "database.json";
+    private const int easyAmount = 4;
+    private const int middleAmount = 4;
+    private const int hardAmount = 2;
 
     public static List<RootObject> LoadDataFromJson()
     {
@@ -26,6 +29,17 @@ class DataLoad
         return data;
     }
 
+    public static List<RootObject> GetQuestionList(string nameTheme)
+    {
+        var random = new Random();
+        var randomQuestions = data.OrderBy(q => random.Next()).Where(q => q.TestType.ToString() == nameTheme);
+
+        var easyQuestions = randomQuestions.Where(q => q.Complexity == "1").GroupBy(q => q.Theme).Select(q => q.First()).Take(easyAmount).ToList();
+        var middleQuestions = randomQuestions.Where(q => q.Complexity == "2").GroupBy(q => q.Theme).Select(q => q.First()).Take(middleAmount).ToList();
+        var hardQuestions = randomQuestions.Where(q => q.Complexity == "3").GroupBy(q => q.Theme).Select(q => q.First()).Take(hardAmount).ToList();
+
+        return easyQuestions.Concat(middleQuestions).Concat(hardQuestions).ToList();
+    }
 
     public static List<string> GetQuestionTypes()
     {
@@ -50,15 +64,10 @@ class DataLoad
 
     public static List<string> GetQuestionsInTheme(string selectedTheme, string selectedType)
     {
-        return data.Where(question => (question.Theme == selectedTheme) && (question.TestType == selectedType)).Select(question => question.Question).Distinct().ToList();
+        return data.Where(question => (question.Theme == selectedTheme) && (question.TestType == selectedType))
+            .Select(question => question.Question).Distinct().ToList();
 
     }
-
-    public static int GetQuestionId(string selectedQuestion)
-    {
-        return data.Where(question => question.Question == selectedQuestion).Select(question => question.ID).First();
-    }
-
     public static RootObject GetQuestionByText(string questionText)
     {
         return data.Where(question => question.Question == questionText).First();
@@ -128,7 +137,6 @@ class DataLoad
             this.Answers = Answers;
         }
     }
-
 
 }
 
