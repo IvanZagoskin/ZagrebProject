@@ -28,7 +28,9 @@
 			</WrapPanel>
 			<StackPanel HorizontalAlignment="Center">
 				<TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" Height="auto" FontWeight="Bold">
-                    Введите функцию приращения мощности
+                    Введите функцию отклонения мощности от номинальной 
+					 <LineBreak></LineBreak>
+					(мощность измеряется в МВт, время - в секундах)
                     <LineBreak></LineBreak>
                     W(t) = W0 + at + bt^2 +ct^3:
 				</TextBlock>
@@ -92,15 +94,11 @@
 				<Label Width="75" Content="м3" HorizontalAlignment="Left"/>
 			</WrapPanel>
 			<WrapPanel>
-				<Label Width="187" Content="Коэффициент теплопередачи a:" HorizontalContentAlignment="Right"/>
+				<Label Width="187" Content="a*FT:" HorizontalContentAlignment="Right"/>
 				<TextBox x:Name="txtCoolantA" Height="20" Width="100" IsEnabled="True" PreviewTextInput="TxtCoefficient_PreviewTextInput"></TextBox>
-				<Label Width="75" Content="м2/град" HorizontalAlignment="Left"/>
+				<Label Width="75" Content="МВт/град" HorizontalAlignment="Left"/>
 			</WrapPanel>
-			<WrapPanel>
-				<Label Width="189" Content="Поверхность теплопередачи FT:" HorizontalContentAlignment="Right"/>
-				<TextBox x:Name="txtCoolantF" Height="20" Width="100" IsEnabled="True" PreviewTextInput="TxtCoefficient_PreviewTextInput"></TextBox>
-				<Label Width="75" Content="м2" HorizontalAlignment="Left"/>
-			</WrapPanel>
+			<WrapPanel/>
 			<WrapPanel>
 				<Label Width="278" Content="Среднее время прохождения теплоносителя t0:" HorizontalContentAlignment="Right"/>
 				<TextBox x:Name="txtCoolantT" Height="20" Width="100" IsEnabled="True" PreviewTextInput="TxtCoefficient_PreviewTextInput"></TextBox>

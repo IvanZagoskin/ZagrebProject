@@ -19,6 +19,8 @@ using HelixToolkit;
 using HelixToolkit.Wpf;
 using OxyPlot.Wpf;
 using System.IO;
+using System.Text.RegularExpressions;
+using System.Globalization;
 
 namespace NuclearProject
 {
@@ -89,7 +91,7 @@ namespace NuclearProject
             InitializeComponent();
 
             lFuels = new List<Fuel>();
-            lFuels.Add(new Fuel("Оксид урана", 318, 10960, 7.026f));
+            lFuels.Add(new Fuel("Диоксид урана", 318, 10960, 7.026f));
             lFuels.Add(new Fuel("Металлический уран", 0, 0, 0));
             lFuels.Add(new Fuel("Торий", 0, 0, 0));
 
@@ -128,30 +130,66 @@ namespace NuclearProject
             win.ShowDialog();
         }
 
+        private static string TruncateMinuses(string input)
+        {
+            return Regex.Replace(input, @"-+", "-");
+        }
+
         private void Button_Click_PlotStart(object sender, RoutedEventArgs e)
         {
-            float startPower = 0;
-            float coeffA = 0;
-            float coeffB = 0;
-            float coeffC = 0;
+            double startPower = 0;
+            double coeffA = 0;
+            double coeffB = 0;
+            double coeffC = 0;
+
+            
 
             if ((txtStartPower.Text) != "")
-                startPower = float.Parse(txtStartPower.Text.Replace('.', ','));
+            {
+                txtStartPower.Text = TruncateMinuses(txtStartPower.Text);
+                startPower = double.Parse(txtStartPower.Text.Replace('.', ','));
+            }
+                
 
             if ((txtCoeffA.Text) != "")
-                coeffA = float.Parse(txtCoeffA.Text.Replace('.', ','));
+            {
+                txtCoeffA.Text = TruncateMinuses(txtCoeffA.Text);
+                coeffA = double.Parse(txtCoeffA.Text.Replace('.', ','));
+            }
+           
 
             if ((txtCoeffB.Text) != "")
-                coeffB = float.Parse(txtCoeffB.Text.Replace('.', ','));
+            {
+                txtCoeffB.Text = TruncateMinuses(txtCoeffB.Text);
+                coeffB = double.Parse(txtCoeffB.Text.Replace('.', ','));
+            }
+
 
             if ((txtCoeffC.Text) != "")
-                coeffC = float.Parse(txtCoeffC.Text.Replace('.', ','));
+            {
+                txtCoeffC.Text = TruncateMinuses(txtCoeffC.Text);
+                coeffC = double.Parse(txtCoeffC.Text.Replace('.', ','));
+            }
 
-            string args = startPower
+           if(startPower == 0 && coeffA == 0 && coeffB  == 0 && coeffC == 0)
+           {
+
+                MessageBox.Show("Не введены параметры функции!", "Ошибка");
+
+            }
+            else
+            {
+                string args = startPower
                 + " " + coeffA
                 + " " + coeffB
                 + " " + coeffC;
-            System.Diagnostics.Process.Start("Test.exe", args);
+
+                Console.Write(args);
+
+                System.Diagnostics.Process.Start("Test.exe", args.Replace(',', '.'));
+            }
+
+            
 
 
         }
@@ -173,11 +211,17 @@ namespace NuclearProject
                 float coolantС = float.Parse(txtCoolantС.Text.Replace('.', ',')); //Сж
                 float coolantP = float.Parse(txtCoolantP.Text.Replace('.', ',')); //рЖ
                 float coolantV = float.Parse(txtCoolantV.Text.Replace('.', ',')); //Vж //const2
+
+
                 float coolantA = float.Parse(txtCoolantA.Text.Replace('.', ',')); //альфа
-                float coolantF = float.Parse(txtCoolantF.Text.Replace('.', ',')); //FT
+             //   float coolantF = float.Parse(txtCoolantF.Text.Replace('.', ',')); //FT
+
+
                 float coolantT = float.Parse(txtCoolantT.Text.Replace('.', ',')); //t0
 
-                this.modelReactor = new ModelNuclearReactor(fuelC, fuelP, fuelV, coolantС, coolantP, coolantV, coolantA, coolantF, coolantT);
+                this.modelReactor = new ModelNuclearReactor(fuelC, fuelP, fuelV, coolantС, coolantP, coolantV, coolantA, 
+                    0.0f, 
+                    coolantT);
                 double fuelParams = modelReactor.getPt() * modelReactor.getVt() * modelReactor.getCt();
                 double alphaF = modelReactor.getFT() * modelReactor.geta();
                 double coolantParams = modelReactor.getP() * modelReactor.getC() * modelReactor.getV();
@@ -211,8 +255,17 @@ namespace NuclearProject
             object selectedFuelName = cmbFuel.SelectedValue;
             if (selectedFuelName != null) {
                 txtCoolantA.Text = selectedCoolant.getA().ToString();
-                txtCoolantF.Text = selectedCoolant.getF().ToString();
+               // txtCoolantF.Text = selectedCoolant.getF().ToString();
                 txtCoolantT.Text = selectedCoolant.getT().ToString();
+            }
+
+            if ((string)selectedCoolantName == "Вода" && (string)selectedFuelName == "Диоксид урана")
+            {
+                txtCoolantA.Text = "6.014";
+            }
+            else
+            {
+                txtCoolantA.Text = "0";
             }
         }
 
@@ -229,8 +282,16 @@ namespace NuclearProject
             {
                 Coolant selectedCoolant = lCoolants.Find(item => item.getName() == (string)selectedCoolantName);
                 txtCoolantA.Text = selectedCoolant.getA().ToString();
-                txtCoolantF.Text = selectedCoolant.getF().ToString();
+               // txtCoolantF.Text = selectedCoolant.getF().ToString();
                 txtCoolantT.Text = selectedCoolant.getT().ToString();
+            }
+
+            if((string)selectedCoolantName == "Вода" && (string)selectedFuelName == "Диоксид урана")
+            {
+                txtCoolantA.Text = "6.014";
+            } else
+            {
+                txtCoolantA.Text = "0";
             }
         }
 
@@ -238,7 +299,9 @@ namespace NuclearProject
         {
             foreach (char ch in e.Text)
             {
-                if (!char.IsDigit(ch) && ch != '.')
+                if (!char.IsDigit(ch)
+                    && ch != '.'
+                    && ch != '-')
                     e.Handled = true;
             }
         }
