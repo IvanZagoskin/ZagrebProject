@@ -92,14 +92,14 @@ namespace NuclearProject
 
             lFuels = new List<Fuel>();
             lFuels.Add(new Fuel("Диоксид урана", 318, 10960, 7.026f));
-            lFuels.Add(new Fuel("Металлический уран", 0, 0, 0));
-            lFuels.Add(new Fuel("Торий", 0, 0, 0));
+            lFuels.Add(new Fuel("Металлический уран", 113, 18700, 0));
+            lFuels.Add(new Fuel("Торий", 200, 11780, 0));
 
             lCoolants = new List<Coolant>();
             lCoolants.Add(new Coolant("Вода", 5670, 620, 18, 1240, 4850, 0.68f));
-            lCoolants.Add(new Coolant("Тяжёлая вода", 0, 0, 0, 0, 0, 0));
-            lCoolants.Add(new Coolant("Свинец", 0, 0, 0, 0, 0, 0));
-            lCoolants.Add(new Coolant("Натрий", 0, 0, 0, 0, 0, 0));
+            lCoolants.Add(new Coolant("Тяжёлая вода", 4208, 682, 0, 0, 0, 0));
+            lCoolants.Add(new Coolant("Свинец", 127.5f, 7800, 0, 0, 0, 0));
+            lCoolants.Add(new Coolant("Натрий", 1220, 967, 0, 0, 0, 0));
 
             foreach (Fuel itemFuels in lFuels)
             {
@@ -259,6 +259,7 @@ namespace NuclearProject
                 txtCoolantT.Text = selectedCoolant.getT().ToString();
             }
 
+            //Holding a*Ft
             if ((string)selectedCoolantName == "Вода" && (string)selectedFuelName == "Диоксид урана")
             {
                 txtCoolantA.Text = "6.014";
@@ -286,7 +287,8 @@ namespace NuclearProject
                 txtCoolantT.Text = selectedCoolant.getT().ToString();
             }
 
-            if((string)selectedCoolantName == "Вода" && (string)selectedFuelName == "Диоксид урана")
+            //Holding a*Ft
+            if ((string)selectedCoolantName == "Вода" && (string)selectedFuelName == "Диоксид урана")
             {
                 txtCoolantA.Text = "6.014";
             } else
