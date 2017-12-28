@@ -199,6 +199,7 @@ namespace NuclearProject
             try
             {
                 float startPower = float.Parse(txtStartPower.Text) * 1000000.0f;
+                float initPower = float.Parse(txtInitPower.Text) * 1000000.0f;
                 float coeffA = float.Parse(txtCoeffA.Text.Replace('.',',')) ;
                 float coeffB = float.Parse(txtCoeffB.Text.Replace('.', ','));
                 float coeffC = float.Parse(txtCoeffC.Text.Replace('.', ','));
@@ -213,23 +214,21 @@ namespace NuclearProject
                 float coolantV = float.Parse(txtCoolantV.Text.Replace('.', ',')); //Vж //const2
 
 
-                float coolantA = float.Parse(txtCoolantA.Text.Replace('.', ',')); //альфа
+                float coolantAlphaFT = float.Parse(txtCoolantA.Text.Replace('.', ',')) * 1000000.0f; //альфаFT
              //   float coolantF = float.Parse(txtCoolantF.Text.Replace('.', ',')); //FT
 
 
                 float coolantT = float.Parse(txtCoolantT.Text.Replace('.', ',')); //t0
 
-                this.modelReactor = new ModelNuclearReactor(fuelC, fuelP, fuelV, coolantС, coolantP, coolantV, coolantA, 
-                    0.0f, 
-                    coolantT);
+                modelReactor = new ModelNuclearReactor(fuelC, fuelP, fuelV, coolantС, coolantP, coolantV, coolantAlphaFT, coolantT);
                 double fuelParams = modelReactor.getPt() * modelReactor.getVt() * modelReactor.getCt();
-                double alphaF = modelReactor.getFT() * modelReactor.geta();
+                double alphaF = modelReactor.getAlphaFT();
                 double coolantParams = modelReactor.getP() * modelReactor.getC() * modelReactor.getV();
                 float t0 = modelReactor.getT0();
                 //int k = 5
 
                 EnvironmentPreset env = new EnvironmentPreset();
-                session = new ModellingSession(env, fuelParams, alphaF, coolantParams, t0, coeffA, coeffB, coeffC, startPower); //создаем новую сессию
+                session = new ModellingSession(env, fuelParams, alphaF, coolantParams, t0, coeffA, coeffB, coeffC, startPower, initPower); //создаем новую сессию
                 this.DataContext = session;
                 session.ModelNextNeutron();
                 plotAverageTau.InvalidatePlot();

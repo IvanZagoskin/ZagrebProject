@@ -8,7 +8,7 @@ namespace NuclearProject
 {
     class ModelNuclearReactor
     {
-        float Ct, pT, Vt, C, P, V, a, FT, t0;
+        float Ct, pT, Vt, C, P, V, alphaFT, t0;
 
         public ModelNuclearReactor(
             float Ct,
@@ -17,8 +17,7 @@ namespace NuclearProject
             float C,
             float P,
             float V,
-            float a,
-            float FT,
+            float alphaFT,
             float t0)
         {
             this.Ct = Ct;
@@ -27,8 +26,7 @@ namespace NuclearProject
             this.C = C;
             this.P = P;
             this.V = V;
-            this.a = a;
-            this.FT = FT;
+            this.alphaFT = alphaFT;
             this.t0 = t0;
         }
 
@@ -38,8 +36,7 @@ namespace NuclearProject
         public float getC() { return this.C; }
         public float getP() { return this.P; }
         public float getV() { return this.V; }
-        public float geta() { return this.a; }
-        public float getFT() { return this.FT; }
+        public float getAlphaFT() { return this.alphaFT; }
         public float getT0() { return this.t0; }
 
     }

@@ -17,10 +17,10 @@ namespace NuclearProject
         List<DataPoint> deltaTtPoints, deltaT2Points, averageTau, deltaT2; //данные для графиков
         Random rnd;
 
-        public ModellingSession(EnvironmentPreset env, double fuelParams, double alphaF, double coolantParams, float t0, float coeffA, float coeffB, float coeffC, float startPower)
+        public ModellingSession(EnvironmentPreset env, double fuelParams, double alphaF, double coolantParams, float t0, float coeffA, float coeffB, float coeffC, float startPower, float initPower)
         {
             this.rnd = new Random();
-            this.model = new Model(env, fuelParams, alphaF, coolantParams, t0, coeffA, coeffB, coeffC, startPower);
+            this.model = new Model(env, fuelParams, alphaF, coolantParams, t0, coeffA, coeffB, coeffC, startPower, initPower);
             this.averageTau = new List<DataPoint>();
             this.deltaT2 = new List<DataPoint>();
             this.deltaTtPoints = new List<DataPoint>();
