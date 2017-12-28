@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 namespace NuclearProject
 {
     /// <summary>
-    /// Логика взаимодействия для EditTestsWindow.xaml
+    /// Окно выбора вопроса для редактирования
     /// </summary>
     public partial class EditTestsWindow : Window
     {
@@ -24,6 +24,7 @@ namespace NuclearProject
 
         public EditTestsWindow(TestsWindow testWindow)
         {
+            //загружаем список вопросов
             InitializeComponent();
             data = DataLoad.LoadDataFromJson();
             this.testWindow = testWindow;
@@ -38,8 +39,8 @@ namespace NuclearProject
 
             }
         }
-
-
+        
+        //переход на окно редактирования выбранного вопроса
         private void Next_Action_Click(object sender, RoutedEventArgs e)
         {
             string selectedQuestion = Questions.SelectedValue.ToString();
@@ -50,6 +51,7 @@ namespace NuclearProject
 
         }
 
+        //удаление выбранного вопроса
         private void Delete_Question_Click(object sender, RoutedEventArgs e)
         {
             MessageBoxResult messageBoxResult = MessageBox.Show("Вы действительно хотите удалить данный вопрос?", "Подтвердите удаление", MessageBoxButton.YesNo);
@@ -82,6 +84,7 @@ namespace NuclearProject
             win.ShowDialog();
         }
 
+        //меняем спписок тем в зависимости от выбранного типа теста
         private void TestTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Themes.Items.Clear();
@@ -96,6 +99,7 @@ namespace NuclearProject
 
         }
 
+        //меняем список вопросов в зависимсоти от выбранной темы
         private void Themes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Questions.Items.Clear();
@@ -115,6 +119,7 @@ namespace NuclearProject
 
         }
 
+        //когда выбраны тип теста, тема и сам вопрос, делаем кнопку редактирования активной
         private void Questions_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             btnNextAction.IsEnabled = Questions.SelectedValue != null ? true : false;

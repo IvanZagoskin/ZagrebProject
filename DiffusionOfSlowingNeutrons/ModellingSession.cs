@@ -17,42 +17,22 @@ namespace NuclearProject
         List<DataPoint> deltaTtPoints, deltaT2Points, averageTau, deltaT2; //данные для графиков
         Random rnd;
 
-        public ModellingSession(EnvironmentPreset env, double fuelParams, double alphaF, double coolantParams, float t0, float coeffA, float coeffB, float coeffC, float startPower, float initPower)
+        public ModellingSession(double fuelParams, double alphaF, double coolantParams, float t0, float coeffA, float coeffB, float coeffC, float startPower, float initPower)
         {
             this.rnd = new Random();
-            this.model = new Model(env, fuelParams, alphaF, coolantParams, t0, coeffA, coeffB, coeffC, startPower, initPower);
+            this.model = new Model(fuelParams, alphaF, coolantParams, t0, coeffA, coeffB, coeffC, startPower, initPower);
             this.averageTau = new List<DataPoint>();
             this.deltaT2 = new List<DataPoint>();
             this.deltaTtPoints = new List<DataPoint>();
             this.deltaT2Points = new List<DataPoint>();
         }
         
-        private double stepE(double E)
-        {
-            if (E == Model.Et)
-                return 0;
-
-            double result;
-
-            if (E / 100.0 > 0.001)
-                result = E / 100.0;
-            else
-                result = E - 0.001;
-
-            if (result < Model.Et)
-                result = Model.Et;
-
-            return result;
-        }
-
-        public void ModelNextNeutron() //промоделировать судьбу одного нейтрона
+        public void ModelNextNeutron() 
         {
             this.averageTau.Clear();
             this.deltaT2.Clear();
             this.deltaTtPoints = model.getDeltaTtPoints();
             this.deltaT2Points = model.getDeltaT2Points();
-            //List<DataPoint> deltaTtPoints = model.getDeltaTtPoints();
-            //List<DataPoint> deltaT2Points = model.getDeltaT2Points();
             foreach (var point in deltaTtPoints)
             {
                 this.averageTau.Add(point);

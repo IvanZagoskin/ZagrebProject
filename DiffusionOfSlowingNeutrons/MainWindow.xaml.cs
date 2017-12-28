@@ -227,8 +227,8 @@ namespace NuclearProject
                 float t0 = modelReactor.getT0();
                 //int k = 5
 
-                EnvironmentPreset env = new EnvironmentPreset();
-                session = new ModellingSession(env, fuelParams, alphaF, coolantParams, t0, coeffA, coeffB, coeffC, startPower, initPower); //создаем новую сессию
+                //EnvironmentPreset env = new EnvironmentPreset();
+                session = new ModellingSession(fuelParams, alphaF, coolantParams, t0, coeffA, coeffB, coeffC, startPower, initPower); //создаем новую сессию
                 this.DataContext = session;
                 session.ModelNextNeutron();
                 plotAverageTau.InvalidatePlot();

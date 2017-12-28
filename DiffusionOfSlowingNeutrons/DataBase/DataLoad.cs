@@ -29,6 +29,7 @@ class DataLoad
         return data;
     }
 
+    //получает список вопросов для теста
     public static List<RootObject> GetQuestionList(string nameTheme)
     {
         var random = new Random();
@@ -41,43 +42,50 @@ class DataLoad
         return easyQuestions.Concat(middleQuestions).Concat(hardQuestions).ToList();
     }
 
+    //возвращает список типов тестов
     public static List<string> GetQuestionTypes()
     {
         return data.Select(question => question.TestType).Distinct().ToList();
 
     }
-
+    //возвращает список тем тестов
     public static List<string> GetQuestionThemes()
     {
         return data.Select(question => question.Theme).Distinct().ToList();
     }
-
+    //возвращает ID последнего добавленного вопроса
     public static int GetMaxQuestionId()
     {
         return data.Select(question => question.ID).Max();
     }
 
+    //возвращает список тем, принадлежащих указанному типу теста
     public static List<string> GetThemesInType(string selectedType)
     {
         return data.Where(question => question.TestType == selectedType).Select(question => question.Theme).Distinct().ToList();
     }
 
+    //возвращает список вопросов в указанной теме
     public static List<string> GetQuestionsInTheme(string selectedTheme, string selectedType)
     {
         return data.Where(question => (question.Theme == selectedTheme) && (question.TestType == selectedType))
             .Select(question => question.Question).Distinct().ToList();
 
     }
+
+    //возвращает вопрос по тексту
     public static RootObject GetQuestionByText(string questionText)
     {
         return data.Where(question => question.Question == questionText).First();
     }
 
+    //возвращает вопрос по ID
     public static RootObject GetQuestionById(int id)
     {
         return data.Where(question => question.ID == id).First();
     }
 
+    //проверка вопроса на уникальность
     public static bool CheckUniqueQuestion(string questionText, int id)
     {
 
@@ -99,6 +107,7 @@ class DataLoad
         return true;
     }
 
+    //сохранение данных в json
     public static void SaveDataToJson(List<RootObject> updatedJson)
     {
         string json = JsonConvert.SerializeObject(updatedJson);

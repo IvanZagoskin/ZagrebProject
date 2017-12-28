@@ -22,7 +22,6 @@ namespace NuclearProject
         public Questions(string nameTheme)
         {
             InitializeComponent();
-            //TODO:wrap in file not found try catch
             this.nameTheme = nameTheme;
             //получаем вопросы и ответы как лист
             data = DataLoad.LoadDataFromJson();

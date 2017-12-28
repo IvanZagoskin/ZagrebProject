@@ -132,6 +132,7 @@ namespace NuclearProject
             win.ShowDialog();
         }
 
+        //выбираем тип теста, в зависимости от типа подгружаются темы, относящиеся к данному тесту
         private void TestTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Theme.Items.Clear();

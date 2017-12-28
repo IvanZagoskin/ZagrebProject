@@ -7,14 +7,8 @@ using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
 namespace NuclearProject
 {
-     public struct ResultPoint
-    {
-        public Vector3D Position;
-        public double Energy;
-    }
     class Model
     {
-        EnvironmentPreset data; //массовые числа ядер и соответствующие макроконстанты
         // начальные параметры
         private double fuelParams, alphaF, coolantParams; 
         private float t0, coeffA, coeffB, coeffC, startPower, initPower;
@@ -23,7 +17,6 @@ namespace NuclearProject
         public const double finalPoint = 10.0;
         public const double step = 0.5;
         public const double startPoint = 0.0;
-        public const double Et = 0.025;
         private double deltaDeltaT2 = 0;
         private bool isDecrease = false;
         private double maxValue = 0;
@@ -34,9 +27,9 @@ namespace NuclearProject
         private double deltaT = 0.1;
 
         //конструктор
-        public Model(EnvironmentPreset env, double fuelParams, double alphaF, double coolantParams, float t0, float coeffA, float coeffB, float coeffC,float startPower, float initPower)
+        public Model(double fuelParams, double alphaF, double coolantParams, float t0, float coeffA, float coeffB, float coeffC,float startPower, float initPower)
         {
-            data = env;
+            //data = env;
             this.fuelParams = fuelParams;
             this.alphaF = alphaF;
             this.coolantParams = coolantParams;
@@ -48,12 +41,6 @@ namespace NuclearProject
             this.initPower = initPower;
             this.deltaTtPoints = new List<DataPoint>();
             this.deltaT2Points = new List<DataPoint>();
-        }
-        //свойства
-        public EnvironmentPreset Data
-        {
-            get { return data; }
-            set { data = value; }
         }
 
         // функция вывода точек первого графика на экран
@@ -96,7 +83,6 @@ namespace NuclearProject
             deltaT2Values.Add(0, 0);
             for (double point = startPoint; point <= finalPoint; point += step)
             {
-                //Console.WriteLine("point = " + point);
                 try
                 {
                     deltaT2Points.Add(new DataPoint(point, deltaT2Values[point]));
