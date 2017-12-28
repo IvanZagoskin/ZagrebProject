@@ -214,9 +214,13 @@ namespace NuclearProject
                 float coolantV = float.Parse(txtCoolantV.Text.Replace('.', ',')); //Vж //const2
 
 
-                float coolantAlphaFT = float.Parse(txtCoolantA.Text.Replace('.', ',')) * 1000000.0f; //альфаFT
-             //   float coolantF = float.Parse(txtCoolantF.Text.Replace('.', ',')); //FT
+                if (startPower + initPower < 0)
+                {
+                    MessageBox.Show("Вы ввели значение параметра W0 функции отклонения мощности от номинальной больше значения самой номинальной мощности! Попробуйте ввести значение, меньшее по модулю.", "Ошибка");
+                    return;
+                }
 
+                float coolantAlphaFT = float.Parse(txtCoolantA.Text.Replace('.', ',')) * 1000000.0f; //альфаFT
 
                 float coolantT = float.Parse(txtCoolantT.Text.Replace('.', ',')); //t0
 
