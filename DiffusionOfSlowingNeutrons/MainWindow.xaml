@@ -28,6 +28,13 @@
 			</WrapPanel>
             <StackPanel HorizontalAlignment="Left">
                 <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" Height="auto" FontWeight="Bold">
+                    Выберите тип реактора
+                </TextBlock>
+                <WrapPanel>
+                    <Label Width="85" Content="Тип реактора:" HorizontalAlignment="Right"/>
+                    <ComboBox x:Name="cmbReactor" Height="25" Width="180" SelectionChanged="Change_Reactor"></ComboBox>
+                </WrapPanel>
+                <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" Height="auto" FontWeight="Bold">
                     Введите номинальную мощность
                 </TextBlock>
                 <WrapPanel>

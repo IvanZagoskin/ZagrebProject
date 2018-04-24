@@ -33,6 +33,57 @@ namespace NuclearProject
         List<Fuel> lFuels;
         List<Coolant> lCoolants;
         ModelNuclearReactor modelReactor;
+        List<Reactor> reactors;
+
+        private class Reactor
+        {
+            private string name;
+            private string W;
+            private Fuel fuel;
+            private Coolant coolant;
+            private float alphaFt;
+            private float t0;
+
+            public Reactor(string name, string W, Fuel fuel, Coolant coolant, float alphaFt, float t0)
+            {
+                this.name = name;
+                this.W = W;
+                this.fuel = fuel;
+                this.coolant = coolant;
+                this.alphaFt = alphaFt;
+                this.t0 = t0;
+            }
+
+            public string GetName()
+            {
+                return name;
+            }
+
+            public string GetW()
+            {
+                return W;
+            }
+
+            public Fuel GetFuel()
+            {
+                return fuel;
+            }
+
+            public Coolant GetCoolant()
+            {
+                return coolant;
+            }
+
+            public float GetAlphaFt()
+            {
+                return alphaFt;
+            }
+
+            public float GetT0()
+            {
+                return t0;
+            }
+        }
 
         private class Fuel
         {
@@ -91,15 +142,24 @@ namespace NuclearProject
             InitializeComponent();
 
             lFuels = new List<Fuel>();
-            lFuels.Add(new Fuel("Диоксид урана", 318, 10960, 7.026f));
+            Fuel dioxUr = new Fuel("Диоксид урана", 318, 10960, 7.026f);
+            lFuels.Add(dioxUr);
             lFuels.Add(new Fuel("Металлический уран", 113, 18700, 0));
             lFuels.Add(new Fuel("Торий", 200, 11780, 0));
 
             lCoolants = new List<Coolant>();
-            lCoolants.Add(new Coolant("Вода", 5670, 620, 18, 1240, 4850, 0.68f));
+            Coolant water = new Coolant("Вода", 5670, 620, 18, 1240, 4850, 0.68f);
+            Coolant natrium = new Coolant("Натрий", 1220, 967, 1.11f, 0, 0, 0);
+            lCoolants.Add(water);
             lCoolants.Add(new Coolant("Тяжёлая вода", 4208, 682, 0, 0, 0, 0));
             lCoolants.Add(new Coolant("Свинец", 127.5f, 7800, 0, 0, 0, 0));
-            lCoolants.Add(new Coolant("Натрий", 1220, 967, 0, 0, 0, 0));
+            lCoolants.Add(natrium);
+
+            reactors = new List<Reactor>();
+            
+            reactors.Add(new Reactor("РБМК-1000", "3200", dioxUr, water, 6.014f, 0.68f));
+            Fuel dioxUr1 = new Fuel("Диоксид урана", 318, 10960, 2.46f);
+            reactors.Add(new Reactor("БН-600", "1500", dioxUr1, natrium, 1.049f, 0.11f));
 
             foreach (Fuel itemFuels in lFuels)
             {
@@ -110,6 +170,50 @@ namespace NuclearProject
             {
                 cmbCoolant.Items.Add(itemCoolants.getName());
             }
+
+            foreach (Reactor reactor in reactors)
+            {
+                cmbReactor.Items.Add(reactor.GetName());
+            }
+        }
+
+        private void Change_Reactor(object sender, SelectionChangedEventArgs e)
+        {
+            object selectedReactorName = cmbReactor.SelectedValue;
+            Reactor selectedReactor = reactors.Find(item => item.GetName() == (string)selectedReactorName);
+
+            txtInitPower.Text = selectedReactor.GetW();
+
+            cmbFuel.Text = selectedReactor.GetFuel().getName();
+            txtFuelC.Text = selectedReactor.GetFuel().getC().ToString();
+            txtFuelP.Text = selectedReactor.GetFuel().getP().ToString();
+            txtFuelV.Text = selectedReactor.GetFuel().getV().ToString();
+
+            cmbCoolant.Text = selectedReactor.GetCoolant().getName().ToString();
+            txtCoolantС.Text = selectedReactor.GetCoolant().getC().ToString();
+            txtCoolantP.Text = selectedReactor.GetCoolant().getP().ToString();
+            txtCoolantV.Text = selectedReactor.GetCoolant().getV().ToString();
+
+            txtCoolantA.Text = selectedReactor.GetAlphaFt().ToString();
+            txtCoolantT.Text = selectedReactor.GetT0().ToString();
+            /*object selectedCoolantName = cmbCoolant.SelectedValue;
+            if (selectedCoolantName != null)
+            {
+                Coolant selectedCoolant = lCoolants.Find(item => item.getName() == (string)selectedCoolantName);
+                txtCoolantA.Text = selectedCoolant.getA().ToString();
+                // txtCoolantF.Text = selectedCoolant.getF().ToString();
+                txtCoolantT.Text = selectedCoolant.getT().ToString();
+            }
+
+            //Holding a*Ft
+            if ((string)selectedCoolantName == "Вода" && (string)selectedFuelName == "Диоксид урана")
+            {
+                txtCoolantA.Text = "6.014";
+            }
+            else
+            {
+                txtCoolantA.Text = "0";
+            }*/
         }
 
         private void Button_Click_Ref(object sender, RoutedEventArgs e) //кнопка "Справка"
