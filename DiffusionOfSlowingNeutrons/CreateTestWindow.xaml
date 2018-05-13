@@ -57,7 +57,7 @@
                 <TextBox x:Name="Answers" Height="25" Width="380"></TextBox>
             </WrapPanel>
         </StackPanel>
-        <TextBlock Grid.Row="10" Grid.Column="0"  Text="Введите верный ответ, будьте внимательны, вводите текст в точности такой же, какой вы указали в возможных ответах"  Margin="10,5,10,0"/>
+        <TextBlock Grid.Row="10" Grid.Column="0"  Text="Введите верный ответ. Ответ должен в точности совпадать с одним из вариантов."  Margin="10,5,10,0"/>
         <StackPanel Grid.Column="0" Grid.Row="11" Margin="10,5,10,0">
             <WrapPanel>
                 <TextBox x:Name="CorrectAnswer" Height="25" Width="380"></TextBox>
