@@ -149,7 +149,7 @@ namespace NuclearProject
 
             lCoolants = new List<Coolant>();
             Coolant water = new Coolant("Вода", 5670, 620, 18, 1240, 4850, 0.68f);
-            Coolant natrium = new Coolant("Натрий", 1220, 967, 1.11f, 0, 0, 0);
+            Coolant natrium = new Coolant("Натрий", 1220, 780, 1.11f, 0, 0, 0);
             lCoolants.Add(water);
             lCoolants.Add(new Coolant("Тяжёлая вода", 4208, 682, 0, 0, 0, 0));
             lCoolants.Add(new Coolant("Свинец", 127.5f, 7800, 0, 0, 0, 0));
@@ -290,7 +290,7 @@ namespace NuclearProject
 
                 Console.Write(args);
 
-                System.Diagnostics.Process.Start("Test.exe", args.Replace(',', '.'));
+                System.Diagnostics.Process.Start("NuclearProject.exe", args.Replace(',', '.'));
             }
 
             

@@ -14,34 +14,30 @@ namespace NuclearProject
     class ModellingSession
     {
         Model model; //экспериментальная модель
-        List<DataPoint> deltaTtPoints, deltaT2Points, averageTau, deltaT2; //данные для графиков
-        Random rnd;
+        private readonly List<DataPoint> averageTau, deltaT2; //данные для графиков
+        private Dictionary<DataPoint, DataPoint> points;
 
-        public ModellingSession(double fuelParams, double alphaF, double coolantParams, float t0, float coeffA, float coeffB, float coeffC, float startPower, float initPower)
+        public ModellingSession(double fuelParams, double alphaF, double coolantParams, double t0, 
+            double coeffA, double coeffB, double coeffC, double startPower, double initPower)
         {
-            this.rnd = new Random();
-            this.model = new Model(fuelParams, alphaF, coolantParams, t0, coeffA, coeffB, coeffC, startPower, initPower);
-            this.averageTau = new List<DataPoint>();
-            this.deltaT2 = new List<DataPoint>();
-            this.deltaTtPoints = new List<DataPoint>();
-            this.deltaT2Points = new List<DataPoint>();
+            model = new Model(fuelParams, alphaF, coolantParams, t0, coeffA, coeffB, coeffC, startPower, initPower);
+            averageTau = new List<DataPoint>();
+            deltaT2 = new List<DataPoint>();
         }
         
         public void ModelNextNeutron() 
         {
-            this.averageTau.Clear();
-            this.deltaT2.Clear();
-            this.deltaTtPoints = model.getDeltaTtPoints();
-            this.deltaT2Points = model.getDeltaT2Points();
-            foreach (var point in deltaTtPoints)
+            points = model.GetPoints();
+
+            averageTau.Clear();
+            deltaT2.Clear();
+
+            foreach (var point in points)
             {
-                this.averageTau.Add(point);
+                averageTau.Add(point.Key);
+                deltaT2.Add(point.Value);
             }
 
-            foreach (var point in deltaT2Points)
-            {
-                this.deltaT2.Add(point);
-            }
     }
 
 
